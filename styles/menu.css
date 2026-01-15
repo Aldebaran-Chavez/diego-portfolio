@@ -1,0 +1,210 @@
+/* =========================
+   WRAPPER
+========================= */
+.wrapper {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background-color: var(--wrapper-bg);
+  padding: 0 40px;
+  border-radius: 0 0 6px 6px;
+  box-shadow: var(--box-shadow);
+  height: 65px;
+
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  transition: all 0.3s ease-in;
+}
+
+/* =========================
+   LINKS
+========================= */
+.item-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: var(--link-color);
+  text-decoration: none;
+  padding: 10px 0;
+  margin: 0 30px;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease, transform 0.2s ease;
+  font-size: 20px;
+}
+
+.item-link::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  width: 0;
+  background-color: var(--link-hover-color);
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Hover */
+.item-link:hover {
+  color: var(--link-hover-color);
+}
+
+.item-link:hover::before {
+  width: 100%;
+}
+
+/* Click */
+.item-link:active {
+  transform: scale(0.95);
+}
+
+/* =========================
+   ACTIVE STATE
+========================= */
+.item-link.active {
+  color: var(--link-active-1);
+}
+
+.item-link.active::before {
+  width: 100%;
+  background-color: var(--link-active-1);
+}
+
+/* Home */
+.item-link.active:nth-of-type(1) {
+  color: #ff4350;
+}
+.item-link.active:nth-of-type(1)::before {
+  background-color: #ff4350;
+}
+
+/* Profile */
+.item-link.active:nth-of-type(2) {
+  color: #fbb046;
+}
+.item-link.active:nth-of-type(2)::before {
+  background-color: #fbb046;
+}
+
+/* Notifications */
+.item-link.active:nth-of-type(3) {
+  color: #47caa4;
+}
+.item-link.active:nth-of-type(3)::before {
+  background-color: #47caa4;
+}
+
+/* Settings */
+.item-link.active:nth-of-type(4) {
+  color: #ff0080;
+}
+.item-link.active:nth-of-type(4)::before {
+  background-color: #ff0080;
+}
+
+/* =========================
+   ICONS
+========================= */
+.link-icon {
+  width: 20px;
+  height: 18px;
+  margin-right: 6px;
+}
+
+/* =========================
+   DARK MODE BUTTON
+========================= */
+.switch-mode {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.switch-mode svg {
+  width: 0;
+  height: 24px;
+  transition: all 0.3s ease-in;
+}
+
+.switch-mode .sun {
+  width: 24px;
+}
+
+.switch-mode .moon {
+  opacity: 0;
+}
+
+.dark .moon {
+  opacity: 1;
+  width: 24px;
+}
+
+.dark .sun {
+  opacity: 0;
+  width: 0;
+}
+
+/* =========================  
+   RESPONSIVE (TABLET)
+========================= */
+@media (max-width: 1024px) {
+  .item-link {
+    margin: 0 20px;
+    font-size: 18px;
+  }
+
+  .wrapper {
+    padding: 0 30px;
+    height: 60px;
+  }
+}
+
+/* =========================  
+   RESPONSIVE (MOBILE)
+========================= */
+@media (max-width: 768px) {
+  .wrapper {
+    top: 10px;
+    padding: 0 20px;
+    height: 55px;
+  }
+
+  .item-link {
+    margin: 0 12px;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+  }
+
+  .item-link::before {
+    height: 3px;
+  }
+}
+
+/* =========================  
+   RESPONSIVE (MOBILE SMALL)
+========================= */
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 0 14px;
+    height: 50px;
+  }
+
+  .item-link {
+    margin: 0 8px;
+    font-size: 13px;
+  }
+}
+
+/* =========================
+   SCROLL OFFSET
+========================= */
+section,
+#skills {
+  scroll-margin-top: 100px;
+}

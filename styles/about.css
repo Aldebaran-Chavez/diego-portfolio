@@ -1,0 +1,210 @@
+/* =========================
+   ABOUT SECTION STYLES
+========================= */
+
+.content-wrapper {
+  max-width: 900px;
+  margin: 1rem auto;
+  padding: 100px 20px;
+  font-family: 'Anonymous Pro', monospace;
+  color: white;
+}
+
+/* =========================
+   EXPERIENCE SECTION
+========================= */
+.experience-section {
+  margin-top: 50px;
+  background: rgba(22, 2, 61, 0.5);
+  padding: 30px;
+  border-radius: 15px;
+  border: 1px solid rgba(89, 249, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.experience-section h2 {
+  color: #59f9ff;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* =========================
+   JOB CARD
+========================= */
+.job-card {
+  margin-bottom: 30px;
+  padding-left: 20px;
+  border-left: 3px solid #ff00c1;
+  transition: transform 0.3s ease;
+}
+
+.job-card:hover {
+  transform: translateX(10px);
+}
+
+.job-card h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #ffffff;
+}
+
+.job-card span {
+  display: block;
+  font-size: 0.9rem;
+  color: #ff5959;
+  margin-bottom: 10px;
+}
+
+.job-card p {
+  line-height: 1.6;
+  color: #cccccc;
+}
+
+/* =========================
+   EDUCATION
+========================= */
+.education-list {
+  list-style: none;
+  padding: 0;
+}
+
+.education-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.education-item strong {
+  color: #ff00c1;
+}
+
+/* =========================
+   MISC
+========================= */
+.title {
+  color: var(--link-hover-color);
+}
+
+.resume {
+  padding: 2rem;
+  font-size: 1.3rem;
+}
+
+.button-container {
+  gap: 2rem;
+}
+
+/* =========================
+   RESPONSIVE – TABLET
+========================= */
+@media (max-width: 1024px) {
+  .content-wrapper {
+    padding: 80px 20px;
+  }
+
+  .experience-section h2 {
+    font-size: 1.6rem;
+  }
+
+  .job-card h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* =========================
+   RESPONSIVE – MOBILE
+========================= */
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 70px 16px;
+  }
+
+  .experience-section {
+    padding: 20px;
+  }
+
+  .experience-section h2 {
+    font-size: 1.4rem;
+    letter-spacing: 1.5px;
+  }
+
+  .job-card {
+    padding-left: 15px;
+  }
+
+  .job-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .job-card span {
+    font-size: 0.85rem;
+  }
+
+  .job-card:hover {
+    transform: none; /* hover molesto en touch */
+  }
+
+  .resume {
+    font-size: 1.1rem;
+    padding: 1.5rem;
+  }
+}
+
+/* =========================
+   RESPONSIVE – MOBILE SMALL
+========================= */
+@media (max-width: 480px) {
+  .content-wrapper {
+    padding: 60px 14px;
+  }
+
+  .experience-section {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .experience-section h2 {
+    font-size: 1.25rem;
+  }
+
+  .job-card {
+    padding-left: 12px;
+    margin-bottom: 20px;
+  }
+
+  .job-card h3 {
+    font-size: 1rem;
+  }
+
+  .job-card span {
+    font-size: 0.8rem;
+  }
+
+  .job-card p {
+    font-size: 0.9rem;
+  }
+
+  /* Education en columna */
+  .education-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .resume {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  .button-container {
+    gap: 1rem;
+    margin: auto;
+  }
+}

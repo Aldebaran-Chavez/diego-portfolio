@@ -1,0 +1,307 @@
+/* =========================
+   WORKS CONTAINER
+========================= */
+.works-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+  width: 100%;
+}
+
+/* =========================
+   CAROUSEL BASE
+========================= */
+.carousel {
+  --nav-btn-size: 40px;
+  --nav-btn-bg: #16023d;
+  --nav-btn-txt: #59f9ff;
+  --nav-marker-bg: #59f9ff;
+
+  width: min(calc(100% - 2rem), 800px);
+  padding-block: 4rem;
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 300px;
+
+  anchor-name: --carousel;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  scroll-marker-group: after;
+
+  position: relative;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Espaciadores laterales */
+.carousel::before,
+.carousel::after {
+  content: '';
+  width: 260px;
+}
+
+/* =========================
+   ITEMS
+========================= */
+.carousel > div {
+  position: relative;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  container-type: scroll-state;
+
+  display: grid;
+  grid-template-areas:
+    "img"
+    "title"
+    "desc";
+  text-align: center;
+}
+
+.carousel > div.scroll-start {
+  scroll-initial-target: nearest;
+}
+
+/* =========================
+   TEXT
+========================= */
+.carousel h2 {
+  grid-area: title;
+  margin: 1.5rem 0 0.5rem;
+  font-size: 1.4rem;
+  color: var(--link-hover-color);
+  transition: all 300ms ease-in-out;
+}
+
+.carousel p {
+  grid-area: desc;
+  color: #888;
+  font-size: 0.9rem;
+  transition: all 300ms ease-in-out;
+}
+
+/* =========================
+   IMAGE
+========================= */
+.carousel .img {
+  grid-area: img;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 300ms ease-in-out;
+  transform-origin: center;
+}
+
+.carousel .img img {
+  width: 90%;
+  height: 90%;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 1px solid #59f9ff44;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================
+   SVG PLACEHOLDER
+========================= */
+.svg-placeholder {
+  width: 90%;
+  height: 90%;
+  background: #16023d;
+  border-radius: 20px;
+  display: grid;
+  place-content: center;
+  border: 2px dashed #59f9ff;
+}
+
+.svg-placeholder svg {
+  width: 60px;
+}
+
+/* =========================
+   CONTAINER QUERY EFFECT
+========================= */
+@container not scroll-state(snapped: inline) {
+  .carousel > div h2 {
+    scale: 0.8;
+    opacity: 0.5;
+    translate: 0 -20px;
+  }
+
+  .carousel > div p {
+    opacity: 0;
+  }
+
+  .carousel > div .img {
+    scale: 0.7;
+    opacity: 0.3;
+  }
+}
+
+/* =========================
+   MARKERS
+========================= */
+.carousel::scroll-marker-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 2rem;
+}
+
+.carousel > div::scroll-marker {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background-color: var(--nav-marker-bg);
+  border-radius: 50%;
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+.carousel > div::scroll-marker:target-current {
+  opacity: 1;
+  scale: 1.5;
+  box-shadow: 0 0 10px var(--nav-marker-bg);
+}
+
+/* =========================
+   NAV BUTTONS
+========================= */
+.carousel::scroll-button(*) {
+  width: var(--nav-btn-size);
+  aspect-ratio: 1;
+  background: var(--nav-btn-bg);
+  color: var(--nav-btn-txt);
+  border: 1px solid var(--nav-btn-txt);
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  transition: 0.3s;
+
+  position: absolute;
+  top: 100%;
+  translate: 0 50%;
+  z-index: 10;
+}
+
+.carousel::scroll-button(inline-start) { content: '❮'; }
+.carousel::scroll-button(inline-end) { content: '❯'; }
+
+.carousel::scroll-button(inline-start) {
+  left: 350px;
+}
+
+.carousel::scroll-button(inline-end) {
+  right: 350px;
+}
+
+/* =========================
+   SUPPORT MESSAGE
+========================= */
+.msg-supports {
+  color: #ff4350;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+@supports selector(::scroll-marker-group) {
+  .msg-supports {
+    display: none;
+  }
+}
+
+/* =========================
+   RESPONSIVE – TABLET
+========================= */
+@media (max-width: 1024px) {
+  .carousel {
+    grid-auto-columns: 260px;
+  }
+
+  .carousel::before,
+  .carousel::after {
+    width: 200px;
+  }
+
+  .carousel::scroll-button(inline-start) {
+    left: 240px;
+  }
+
+  .carousel::scroll-button(inline-end) {
+    right: 240px;
+  }
+}
+
+/* =========================
+   RESPONSIVE – MOBILE
+========================= */
+@media (max-width: 768px) {
+  .carousel {
+    grid-auto-columns: 220px;
+    padding-block: 3rem;
+  }
+
+  .carousel h2 {
+    font-size: 1.1rem;
+  }
+
+  .carousel p {
+    font-size: 0.8rem;
+  }
+
+  .carousel::before,
+  .carousel::after {
+    width: 120px;
+  }
+
+  /* Botones más pequeños y centrados */
+  .carousel::scroll-button(*) {
+    --nav-btn-size: 32px;
+    top: auto;
+    bottom: -10px;
+    translate: 0 0;
+  }
+
+  .carousel::scroll-button(inline-start) {
+    left: 35%;
+  }
+
+  .carousel::scroll-button(inline-end) {
+    right: 35%;
+  }
+}
+
+/* =========================
+   RESPONSIVE – MOBILE SMALL
+========================= */
+@media (max-width: 480px) {
+  .carousel {
+    grid-auto-columns: 190px;
+  }
+
+  .carousel::before,
+  .carousel::after {
+    width: 80px;
+  }
+
+  .carousel h2 {
+    font-size: 1rem;
+  }
+
+  .carousel p {
+    font-size: 0.75rem;
+  }
+
+  /* En móviles pequeños: sin botones */
+  .carousel::scroll-button(*) {
+    display: none;
+  }
+}

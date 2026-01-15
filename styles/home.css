@@ -1,0 +1,67 @@
+/* =========================
+   HERO SECTION
+========================= */
+.hero {
+  max-width: 1200px;
+  margin: 100px auto 40px auto; /* Centrado horizontal del contenedor */
+  padding: 60px 20px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;    /* Centra el h1, h2 y p horizontalmente */
+  text-align: center;     /* Centra el texto interno */
+}
+
+.hero h1 {
+  font-size: 6rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--link-hover-color);
+}
+
+.hero h2 {
+  margin-top: 30px;
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: var(--link-active-1);
+}
+
+.hero p {
+  margin-top: 25px;
+  max-width: 700px;       /* Limita el ancho para mejor lectura */
+  font-size: 1.5rem;
+  line-height: 1.7;
+  color: #ffffff;
+}
+
+/* =========================
+   SKILLS SECTION (GRID)
+========================= */
+.skills-section {
+  width: 100%;
+  display: flex;          /* Contenedor flex para centrar el grid */
+  justify-content: center; /* Centra el grid horizontalmente */
+  padding: 40px 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 260px); /* Dos columnas fijas */
+  grid-gap: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsividad básica para tablets/móviles */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 260px; /* Una sola columna en pantallas pequeñas */
+  }
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+}
+
+.contact-container{
+  color: #f0ff69;
+}

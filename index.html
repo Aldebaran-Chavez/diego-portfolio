@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diego Chávez | Pentester</title>
+    <link rel="stylesheet" href="styles/global.css" />
+    <link rel="stylesheet" href="styles/menu.css" />
+    <link rel="stylesheet" href="styles/skills.css" />
+    <link rel="stylesheet" href="styles/home.css" />
+    <link rel="stylesheet" href="styles/button.css" />
+    <link rel="stylesheet" href="styles/carrusel.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
+    />
+  </head>
+  <body>
+    <div>
+      <div>
+        <button class="switch-mode">
+          <!-- svg -->
+        </button>
+      </div>
+
+      <div class="wave-background">
+        <div class="wave">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <div>
+        <div class="wrapper">
+          <a href="#home" class="item-link active">Home</a>
+          <a href="./pages/about.html" class="item-link">About me</a>
+          <a href="#projects" class="item-link">Projects</a>
+          <a href="#skills" class="item-link">Skills</a>
+        </div>
+      </div>
+
+      <!-- jQuery -->
+      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+      <!-- JS -->
+      <script src="/scripts/menu.js"></script>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div>
+      <section class="hero" id="home">
+        <h1>Diego Chávez</h1>
+        <h2>Pentester | Ethical Hacker | React Dev | Mobile Dev | OWASP</h2>
+        <p>
+          I focus on offensive security, vulnerability research and automation.
+          I have experience in OWASP TOP 10 and Web hacking. I'm experienced on
+          Linux for pentesters like Parrot OS, Arch and Kali. Entusiast of
+          hacking tools.
+        </p>
+        <br />
+        <div class="contact-container">
+          aldebaran.gzz.dc@gmail.com |
+          <a href="https://www.linkedin.com/in/diego-ch%C3%A1vez-offsec/"
+            >linkedin-diego</a
+          >
+        </div>
+      </section>
+    </div>
+
+    <!-- WORKS SECTION -->
+    <section class="works-container" id="projects">
+      <p class="msg-supports">
+        Note: Your browser might not support CSS Scroll Markers yet.
+      </p>
+
+      <div class="carousel">
+        <div>
+          <h2>All projects</h2>
+          <p>Click here to see al projects</p>
+          <div class="img">
+            <div class="button-container">
+              <button class="button-33" role="button">
+                <a href="./pages/works.html">Watch more</a>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2>Bank Login System</h2>
+          <p>Front end for bank with accounts, profile and home page</p>
+          <div class="img">
+            <img src="./images/bank/bank_login.png" alt="Bank Project" />
+          </div>
+        </div>
+
+        <div>
+          <h2>Coffee Shop App</h2>
+          <p>Mobile work for class simulating a real restaurant</p>
+          <div class="img">
+            <img src="./images/coffee/cafe_login.png" alt="Coffee Project" />
+          </div>
+        </div>
+
+        <div class="scroll-start">
+          <h2>Confidential Project</h2>
+          <p>I work in a enterprise to do crud using nextjs</p>
+          <div class="img">
+            <div class="svg-placeholder">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 11H5C3.89543 11 3 11.8954 3 13V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V13C21 11.8954 20.1046 11 19 11Z"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2>Food Delivery UI</h2>
+          <p>React Frontend practice for a restaurant</p>
+          <div class="img">
+            <img src="./images/food/food_home.png" alt="Food Project" />
+          </div>
+        </div>
+
+        <div>
+          <h2>AI Research</h2>
+          <p>Gemini api to describe images</p>
+          <div class="img">
+            <img src="./images/IA/ia_no_description.png" alt="AI Project" />
+          </div>
+        </div>
+
+        <div>
+          <h2>Writeups</h2>
+          <p>Click here to read my write ups</p>
+          <div class="img">
+            <div class="button-container">
+              <button class="button-33" role="button">
+                <a href="./pages/writeups.html">Watch more</a>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="skills">
+      <!-- SKILLS -->
+      <section class="skills-section">
+        <div class="grid">
+          <!-- BASH -->
+          <div class="card">
+            <h4>Bash Scripting</h4>
+            <p>
+              Automation of tasks, scripting, and system management to increase
+              efficiency and productivity
+            </p>
+
+            <div class="shine"></div>
+            <div class="background">
+              <div class="tiles">
+                <div class="tile tile-1"></div>
+                <div class="tile tile-2"></div>
+                <div class="tile tile-3"></div>
+                <div class="tile tile-4"></div>
+                <div class="tile tile-5"></div>
+                <div class="tile tile-6"></div>
+                <div class="tile tile-7"></div>
+                <div class="tile tile-8"></div>
+                <div class="tile tile-9"></div>
+                <div class="tile tile-10"></div>
+              </div>
+
+              <div class="line line-1"></div>
+              <div class="line line-2"></div>
+              <div class="line line-3"></div>
+            </div>
+          </div>
+
+          <!-- ARCH LINUX -->
+          <div class="card">
+            <h4>Linux</h4>
+            <p>
+              Experienced in Linux systems for penetration testing. Like Parrot
+              Kali and Arch
+            </p>
+
+            <div class="shine"></div>
+            <div class="background">
+              <div class="tiles">
+                <div class="tile tile-1"></div>
+                <div class="tile tile-2"></div>
+                <div class="tile tile-3"></div>
+                <div class="tile tile-4"></div>
+                <div class="tile tile-5"></div>
+                <div class="tile tile-6"></div>
+                <div class="tile tile-7"></div>
+                <div class="tile tile-8"></div>
+                <div class="tile tile-9"></div>
+                <div class="tile tile-10"></div>
+              </div>
+
+              <div class="line line-1"></div>
+              <div class="line line-2"></div>
+              <div class="line line-3"></div>
+            </div>
+          </div>
+
+          <!-- BURPSUITE -->
+          <div class="card">
+            <h4>Burpsuite</h4>
+            <p>
+              Experienced in Linux systems for penetration testing. Like Parrot
+              Kali and Arch
+            </p>
+
+            <div class="shine"></div>
+            <div class="background">
+              <div class="tiles">
+                <div class="tile tile-1"></div>
+                <div class="tile tile-2"></div>
+                <div class="tile tile-3"></div>
+                <div class="tile tile-4"></div>
+                <div class="tile tile-5"></div>
+                <div class="tile tile-6"></div>
+                <div class="tile tile-7"></div>
+                <div class="tile tile-8"></div>
+                <div class="tile tile-9"></div>
+                <div class="tile tile-10"></div>
+              </div>
+
+              <div class="line line-1"></div>
+              <div class="line line-2"></div>
+              <div class="line line-3"></div>
+            </div>
+          </div>
+
+          <!-- CMS -->
+          <div class="card">
+            <h4>CMS</h4>
+            <p>
+              Experienced in Linux systems for penetration testing. Like Parrot
+              Kali and Arch
+            </p>
+
+            <div class="shine"></div>
+            <div class="background">
+              <div class="tiles">
+                <div class="tile tile-1"></div>
+                <div class="tile tile-2"></div>
+                <div class="tile tile-3"></div>
+                <div class="tile tile-4"></div>
+                <div class="tile tile-5"></div>
+                <div class="tile tile-6"></div>
+                <div class="tile tile-7"></div>
+                <div class="tile tile-8"></div>
+                <div class="tile tile-9"></div>
+                <div class="tile tile-10"></div>
+              </div>
+
+              <div class="line line-1"></div>
+              <div class="line line-2"></div>
+              <div class="line line-3"></div>
+            </div>
+          </div>
+
+          <!-- XSS -->
+          <div class="card">
+            <h4>XSS</h4>
+            <p>
+              Experienced in Linux systems for penetration testing. Like Parrot
+              Kali and Arch
+            </p>
+
+            <div class="shine"></div>
+            <div class="background">
+              <div class="tiles">
+                <div class="tile tile-1"></div>
+                <div class="tile tile-2"></div>
+                <div class="tile tile-3"></div>
+                <div class="tile tile-4"></div>
+                <div class="tile tile-5"></div>
+                <div class="tile tile-6"></div>
+                <div class="tile tile-7"></div>
+                <div class="tile tile-8"></div>
+                <div class="tile tile-9"></div>
+                <div class="tile tile-10"></div>
+              </div>
+
+              <div class="line line-1"></div>
+              <div class="line line-2"></div>
+              <div class="line line-3"></div>
+            </div>
+          </div>
+
+          <!-- SQLI -->
+          <div class="card">
+            <h4>SQLI</h4>
+            <p>
+              Experienced in Linux systems for penetration testing. Like Parrot
+              Kali and Arch
+            </p>
+
+            <div class="shine"></div>
+            <div class="background">
+              <div class="tiles">
+                <div class="tile tile-1"></div>
+                <div class="tile tile-2"></div>
+                <div class="tile tile-3"></div>
+                <div class="tile tile-4"></div>
+                <div class="tile tile-5"></div>
+                <div class="tile tile-6"></div>
+                <div class="tile tile-7"></div>
+                <div class="tile tile-8"></div>
+                <div class="tile tile-9"></div>
+                <div class="tile tile-10"></div>
+              </div>
+
+              <div class="line line-1"></div>
+              <div class="line line-2"></div>
+              <div class="line line-3"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="button-container">
+      <button class="button-33" role="button">Watch more</button>
+    </div>
+  </body>
+</html>

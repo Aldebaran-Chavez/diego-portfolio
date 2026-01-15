@@ -1,0 +1,127 @@
+/* =========================
+   BUTTON
+========================= */
+.button-33 {
+  /* Gradiente de Azul a Fucsia */
+  background: linear-gradient(135deg, #00d2ff 0%, #ff00c1 100%);
+  border-radius: 100px;
+
+  /* Sombras */
+  box-shadow: 
+    rgba(255, 0, 193, 0.3) 0 -25px 18px -14px inset,
+    rgba(0, 210, 255, 0.2) 0 1px 2px, 
+    rgba(0, 210, 255, 0.2) 0 2px 4px,
+    rgba(0, 210, 255, 0.2) 0 4px 8px, 
+    rgba(255, 0, 193, 0.2) 0 8px 16px,
+    rgba(255, 0, 193, 0.2) 0 16px 32px;
+
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: 'Anonymous Pro', monospace;
+  padding: 12px 34px;
+  min-height: 44px;
+  text-align: center;
+  text-decoration: none;
+
+  transition: 
+    transform 250ms cubic-bezier(.23, 1, 0.32, 1),
+    box-shadow 250ms ease,
+    filter 250ms ease;
+
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Hover (desktop) */
+@media (hover: hover) {
+  .button-33:hover {
+    box-shadow: 
+      rgba(255, 0, 193, 0.5) 0 -25px 18px -14px inset,
+      rgba(0, 210, 255, 0.4) 0 1px 2px, 
+      rgba(255, 0, 193, 0.4) 0 8px 16px,
+      rgba(255, 0, 193, 0.4) 0 16px 32px;
+    transform: scale(1.1) rotate(-1deg);
+    filter: brightness(1.1);
+  }
+}
+
+/* Active (touch / click) */
+.button-33:active {
+  transform: scale(0.96);
+  filter: brightness(0.95);
+}
+
+/* =========================
+   BUTTON CONTAINER
+========================= */
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-bottom: 50px;
+  gap: 1.5rem;
+}
+
+/* =========================
+   LINKS
+========================= */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* =========================
+   RESPONSIVE – TABLET
+========================= */
+@media (max-width: 1024px) {
+  .button-33 {
+    font-size: 15px;
+    padding: 11px 30px;
+  }
+}
+
+/* =========================
+   RESPONSIVE – MOBILE
+========================= */
+@media (max-width: 768px) {
+  .button-33 {
+    font-size: 14px;
+    padding: 12px 26px;
+    letter-spacing: 0.8px;
+  }
+
+  .button-container {
+    padding-bottom: 40px;
+  }
+}
+
+/* =========================
+   RESPONSIVE – MOBILE SMALL
+========================= */
+@media (max-width: 480px) {
+  .button-33 {
+    width: 100%;          
+    max-width: 280px;
+    font-size: 13px;
+    padding: 12px 20px;
+  }
+
+  .button-container {
+    padding-bottom: 30px;
+    margin-top: 20px;
+  }
+}
