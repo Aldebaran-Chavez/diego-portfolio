@@ -6,7 +6,7 @@
   max-width: 900px;
   margin: 1rem auto;
   padding: 100px 20px;
-  font-family: 'Anonymous Pro', monospace;
+  font-family: "Anonymous Pro", monospace;
   color: white;
 }
 
@@ -207,4 +207,22 @@
     gap: 1rem;
     margin: auto;
   }
+}
+
+.stack-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.stack-item:hover {
+  background: rgba(89, 249, 255, 0.1);
+  border-color: var(--link-active-1);
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(255, 67, 80, 0.3);
 }

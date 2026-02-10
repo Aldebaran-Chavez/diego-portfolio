@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="styles/home.css" />
     <link rel="stylesheet" href="styles/button.css" />
     <link rel="stylesheet" href="styles/carrusel.css" />
+    <link rel="stylesheet" href="styles/mail.css" />
     <link
       rel="icon"
       type="image/png"
@@ -61,10 +62,18 @@
         </p>
         <br />
         <div class="contact-container">
-          aldebaran.gzz.dc@gmail.com |
-          <a href="https://www.linkedin.com/in/diego-ch%C3%A1vez-offsec/"
-            >linkedin-diego</a
+          <div class="mail-tooltip" id="mailCopy">
+            <span class="iconify mail-icon" data-icon="mdi:email"></span>
+            <span class="mail-text" id="mailText">
+              aldebaran.gzz.dc@gmail.com
+            </span>
+          </div>
+          |
+          <a
+            href="https://www.linkedin.com/in/diego-chávez-offsec?utm_source=share_via&utm_content=profile&utm_medium=member_android"
           >
+            linkedin-diego
+          </a>
         </div>
       </section>
     </div>
@@ -200,8 +209,8 @@
           <div class="card">
             <h4>Linux</h4>
             <p>
-              Experienced in arch to make a ligth distro for pentesting and hacking. And
-              Experienced on Parrot and Kali.
+              Experienced in arch to make a ligth distro for pentesting and
+              hacking. And Experienced on Parrot and Kali.
             </p>
 
             <div class="shine"></div>
@@ -229,7 +238,8 @@
           <div class="card">
             <h4>Burpsuite</h4>
             <p>
-              Experienced in Burpsuite to web hacking using proxies and tools like intruder, repeter and decoder.
+              Experienced in Burpsuite to web hacking using proxies and tools
+              like intruder, repeter and decoder.
             </p>
 
             <div class="shine"></div>
@@ -257,7 +267,8 @@
           <div class="card">
             <h4>CMS</h4>
             <p>
-              Knowledge of CVEs to exploit Content Management Systems (CMS). And make exploits.
+              Knowledge of CVEs to exploit Content Management Systems (CMS). And
+              make exploits.
             </p>
 
             <div class="shine"></div>
@@ -287,7 +298,7 @@
             <p>
               Experience in OWASP-type attacks such as XSS, SQLi, XXE, and more.
             </p>
- 
+
             <div class="shine"></div>
             <div class="background">
               <div class="tiles">
@@ -313,7 +324,8 @@
           <div class="card">
             <h4>PORTSWIGGER</h4>
             <p>
-              Resolution of some labs in portswigger like sqli and exploits for resolutions
+              Resolution of some labs in portswigger like sqli and exploits for
+              resolutions
             </p>
 
             <div class="shine"></div>
@@ -341,7 +353,11 @@
     </div>
 
     <div class="button-container">
-      <button class="button-33" role="button">Watch more</button>
+      <button class="button-33" role="button">
+        <a href="./pages/skills.html">Watch more</a>
+      </button>
     </div>
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+    <script src="./scripts/mail.js"></script>
   </body>
 </html>

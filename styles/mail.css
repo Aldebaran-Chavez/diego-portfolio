@@ -1,0 +1,59 @@
+.mail-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.mail-icon {
+  font-size: 20px;
+  color: var(--link-hover-color);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.mail-tooltip:hover .mail-icon {
+  transform: scale(1.15);
+  color: #74b9ff;
+}
+
+.mail-text {
+  position: absolute;
+  bottom: 140%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateX(-50%) translateY(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.mail-tooltip:hover .mail-text {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.mail-tooltip.copied .mail-text {
+  opacity: 1;
+  content: "¡Copiado!";
+}
+
+.mail-tooltip.copied .mail-text::after {
+  content: " ✓ Copiado";
+  color: #4cd137;
+  margin-left: 6px;
+}
+
+.contact-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
