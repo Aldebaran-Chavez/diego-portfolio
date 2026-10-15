@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Loading... | Diego Chávez</title>
-    <link rel="stylesheet" href="../styles/loading.css" />
+    <title>Writeups & CTFs | Diego Chávez</title>
+    <link rel="stylesheet" href="../styles/global.css" />
     <link rel="stylesheet" href="../styles/button.css" />
+    <link rel="stylesheet" href="../styles/about.css" />
     <link
       rel="icon"
       type="image/png"
@@ -13,16 +14,49 @@
     />
   </head>
   <body>
-    <div class="loading-container" id="loader">
-      <div class="scanline"></div>
-      <div class="loader-content">
-        <div class="loader"></div>
-        <div class="loading-text">Work in progress</div>
-        <div class="status-bar"><div class="progress"></div></div>
-        <div class="button-container">
-          <a href="../" class="button-33">Back home</a>
-        </div>
+    <main class="content-wrapper" style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
+      
+      <!-- ENCABEZADO -->
+      <section class="hero" style="text-align: center; margin-bottom: 40px;">
+        <h1 style="color: var(--link-hover-color); font-size: 2.8rem; margin-bottom: 15px;">Security Writeups</h1>
+        <p style="color: #b0b4c7; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+          Documentación detallada de resolución de máquinas CTF, análisis de vulnerabilidades y técnicas de pentesting.
+        </p>
+      </section>
+
+      <!-- LISTA DE WRITEUPS (TARJETAS) -->
+      <section class="writeups-grid" style="display: flex; flex-direction: column; gap: 20px;">
+        
+        <!-- Tarjeta Mango -->
+        <a href="/pages/writeups/wr-mango.html" style="text-decoration: none;">
+          <div class="job-card" style="background: rgba(22, 2, 61, 0.5); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.2); transition: 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <h3 style="color: #59f9ff; font-size: 1.4rem; margin: 0;">HTB: Mango</h3>
+              <span style="background: rgba(255,67,80,0.2); color: var(--link-active-1); padding: 4px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold;">Easy</span>
+            </div>
+            
+            <p style="color: #cccccc; margin-top: 10px; font-size: 0.95rem;">
+              Explotación de vulnerabilidades NoSQL Injection (NoSQLi) en formularios de autenticación y escalada de privilegios mediante SUID en sistemas Linux.
+            </p>
+
+            <div class="tags" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#linux</span>
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#MongoDB</span>
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#NoSQLI</span>
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#SUID</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Aquí podrás duplicar bloques similares cuando agregues más máquinas en el futuro -->
+
+      </section>
+
+      <!-- BOTONES DE NAVEGACIÓN -->
+      <div class="button-container" style="margin-top: 40px; display: flex; justify-content: center; gap: 15px;">
+        <a href="../" class="button-33" role="button">Back home</a>
       </div>
-    </div>
+
+    </main>
   </body>
 </html>
