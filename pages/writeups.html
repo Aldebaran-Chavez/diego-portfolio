@@ -12,17 +12,60 @@
       type="image/png"
       href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
     />
+    <style>
+      /* Estilos para la barra de búsqueda estilo terminal */
+      .search-container {
+        margin: 0 auto 30px auto;
+        max-width: 600px;
+        position: relative;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 12px 18px;
+        background: rgba(7, 3, 15, 0.7);
+        border: 1px solid rgba(89, 249, 255, 0.3);
+        border-radius: 8px;
+        color: #59f9ff;
+        font-family: 'Anonymous Pro', monospace, sans-serif;
+        font-size: 1rem;
+        outline: none;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+      }
+
+      .search-input::placeholder {
+        color: rgba(176, 180, 199, 0.5);
+      }
+
+      .search-input:focus {
+        border-color: #59f9ff;
+        box-shadow: 0 0 12px rgba(89, 249, 255, 0.3);
+        background: rgba(13, 5, 29, 0.9);
+      }
+    </style>
   </head>
   <body>
     <main class="content-wrapper" style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
       
       <!-- ENCABEZADO -->
-      <section class="hero" style="text-align: center; margin-bottom: 40px;">
+      <section class="hero" style="text-align: center; margin-bottom: 30px;">
         <h1 style="color: var(--link-hover-color); font-size: 2.8rem; margin-bottom: 15px;">Security Writeups</h1>
         <p style="color: #b0b4c7; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
           Detailed documentation of CTF machine solutions, vulnerability assessments, and penetration testing techniques.
         </p>
       </section>
+
+      <!-- BARRA DE BÚSQUEDA -->
+      <div class="search-container">
+        <input
+          type="text"
+          id="search-input"
+          class="search-input"
+          placeholder="Search by title, tag (#NoSQLI, #linux) or difficulty..."
+          autocomplete="off"
+        />
+      </div>
 
       <!-- LISTA DE WRITEUPS (TARJETAS) -->
       <section class="writeups-grid" style="display: flex; flex-direction: column; gap: 20px;">
@@ -32,7 +75,7 @@
           <div class="job-card" style="background: rgba(22, 2, 61, 0.5); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.2); transition: 0.3s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
               <h3 style="color: #59f9ff; font-size: 1.4rem; margin: 0;">HTB: Mango</h3>
-              <span style="background: rgba(255,67,80,0.2); color: var(--link-active-1); padding: 4px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold;">Easy</span>
+              <span style="background: rgba(0, 245, 212, 0.15); color: #00f5d4; border: 1px solid rgba(0, 245, 212, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold;">Easy</span>
             </div>
             
             <p style="color: #cccccc; margin-top: 10px; font-size: 0.95rem;">
@@ -48,7 +91,102 @@
           </div>
         </a>
 
-        <!-- Aquí podrás duplicar bloques similares cuando agregues más máquinas en el futuro -->
+        <!-- Tarjeta Backend -->
+        <a href="/pages/writeups/wr-backend.html" style="text-decoration: none;">
+          <div class="job-card" style="background: rgba(22, 2, 61, 0.5); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.2); transition: 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <h3 style="color: #59f9ff; font-size: 1.4rem; margin: 0;">HTB: Backend</h3>
+              <span style="background: rgba(255,165,0,0.2); color: #ffa500; border: 1px solid rgba(255, 165, 0, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold;">Medium</span>
+            </div>
+            
+            <p style="color: #cccccc; margin-top: 10px; font-size: 0.95rem;">
+              API endpoint enumeration, JWT secret forging, arbitrary file read, and remote code execution leading to system compromise.
+            </p>
+
+            <div class="tags" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#linux</span>
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#api</span>
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#jwt</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Tarjeta Bashed -->
+        <a href="/pages/writeups/wr-bashed.html" style="text-decoration: none;">
+          <div class="job-card" style="background: rgba(22, 2, 61, 0.5); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.2); transition: 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <h3 style="color: #59f9ff; font-size: 1.4rem; margin: 0;">HTB: Bashed</h3>
+              <span style="background: rgba(0, 245, 212, 0.15); color: #00f5d4; border: 1px solid rgba(0, 245, 212, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold;">Easy</span>
+            </div>
+            
+            <p style="color: #cccccc; margin-top: 10px; font-size: 0.95rem;">
+              Web directory enumeration leading to phpbash web shell, process monitoring to identify root cron job execution, and privilege escalation via Python script hijacking.
+            </p>
+
+            <div class="tags" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#linux</span>
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#web</span>
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#intrusion</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Tarjeta Crack the Gate -->
+        <a href="/pages/writeups/wr-crack-the-gate.html" style="text-decoration: none;">
+          <div class="job-card" style="background: rgba(22, 2, 61, 0.5); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.2); transition: 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <h3 style="color: #59f9ff; font-size: 1.4rem; margin: 0;">PicoCTF: Crack the Gate</h3>
+              <span style="background: rgba(0, 245, 212, 0.15); color: #00f5d4; border: 1px solid rgba(0, 245, 212, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold;">Easy</span>
+            </div>
+            
+            <p style="color: #cccccc; margin-top: 10px; font-size: 0.95rem;">
+              Source code inspection, ROT13 cipher decoding to discover hidden developer notes, and authentication bypass via custom HTTP header injection.
+            </p>
+
+            <div class="tags" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#web</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Tarjeta Instant -->
+        <a href="/pages/writeups/wr-instant.html" style="text-decoration: none;">
+          <div class="job-card" style="background: rgba(22, 2, 61, 0.5); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.2); transition: 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <h3 style="color: #59f9ff; font-size: 1.4rem; margin: 0;">HTB: Instant</h3>
+              <span style="background: rgba(255,165,0,0.2); color: #ffa500; border: 1px solid rgba(255, 165, 0, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold;">Medium</span>
+            </div>
+            
+            <p style="color: #cccccc; margin-top: 10px; font-size: 0.95rem;">
+              Android APK decompilation to uncover hidden subdomains and hardcoded JWT credentials, Swagger API log path traversal for SSH key extraction, and Solar-PuTTY credential backup decryption.
+            </p>
+
+            <div class="tags" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#linux</span>
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#apk</span>
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#api</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Tarjeta NodeBlog -->
+        <a href="/pages/writeups/wr-nodeblog.html" style="text-decoration: none;">
+          <div class="job-card" style="background: rgba(22, 2, 61, 0.5); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.2); transition: 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <h3 style="color: #59f9ff; font-size: 1.4rem; margin: 0;">HTB: NodeBlog</h3>
+              <span style="background: rgba(255,165,0,0.2); color: #ffa500; border: 1px solid rgba(255, 165, 0, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold;">Medium</span>
+            </div>
+            
+            <p style="color: #cccccc; margin-top: 10px; font-size: 0.95rem;">
+              NoSQL authentication bypass, XML External Entity (XXE) file read to extract Node.js source code, insecure deserialization via node-serialize, and privilege escalation.
+            </p>
+
+            <div class="tags" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#NoSQLI</span>
+              <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#xxe</span>
+            </div>
+          </div>
+        </a>
 
       </section>
 
@@ -58,5 +196,8 @@
       </div>
 
     </main>
+
+    <!-- SCRIPT DE BÚSQUEDA -->
+    <script src="search.js"></script>
   </body>
 </html>

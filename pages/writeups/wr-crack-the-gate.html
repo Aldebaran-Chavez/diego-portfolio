@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PicoCTF Crack the Gate Writeup | Diego Chávez</title>
+    <link rel="stylesheet" href="../../styles/global.css" />
+    <link rel="stylesheet" href="../../styles/button.css" />
+    <link rel="stylesheet" href="../../styles/about.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
+    />
+    <style>
+      .writeup-img {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        border-radius: 8px;
+        border: 1px solid rgba(89, 249, 255, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        margin: 12px 0;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="content-wrapper" style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
+      
+      <!-- ENCABEZADO Y ETIQUETAS -->
+      <section class="hero" style="text-align: left; margin-bottom: 40px;">
+        <h1 style="color: var(--link-hover-color); font-size: 2.3rem; margin-bottom: 10px;">PicoCTF: Crack the Gate</h1>
+        
+        <div class="tags" style="margin: 15px 0; display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="background: rgba(0, 245, 212, 0.15); color: #00f5d4; border: 1px solid rgba(0, 245, 212, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">#Easy</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#web</span>
+        </div>
+      </section>
+
+      <!-- CONTENIDO DEL WRITEUP -->
+      <article class="writeup-body" style="line-height: 1.8; color: #e2e8f0; display: flex; flex-direction: column; gap: 25px;">
+        
+        <div class="step-card" style="background: rgba(22, 2, 61, 0.4); padding: 25px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.15);">
+          
+          <p>First, we open the target link provided by the challenge in our web browser.</p>
+          <img src="./images/Pasted image 20260407181353.png" alt="PicoCTF Target URL Page" class="writeup-img" />
+          
+          <p style="margin-top: 10px;">We are provided with the following username: <code>ctf-player@picoctf.org</code></p>
+
+          <p style="margin-top: 15px;">We run technology recognition on the target server using <code>whatweb</code>:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">whatweb http://amiable-citadel.picoctf.net:56785/</code></pre>
+
+          <p style="margin-top: 10px;">The tool reports the following information:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #e2e8f0;">http://amiable-citadel.picoctf.net:56785/ [200 OK] Country[UNITED STATES][US], HTML5, IP[3.23.68.152], PasswordField[password], Script, Title[Login], X-Powered-By[Express]</code></pre>
+
+          <p style="margin-top: 15px;">We open CAIDO / Burp Suite to intercept the login request:</p>
+          <img src="./images/Pasted image 20260407181833.png" alt="CAIDO Intercepted Login Request" class="writeup-img" />
+          <p style="margin-top: 10px;">The server responds with an <i>Unauthorized</i> status message.</p>
+
+          <p style="margin-top: 15px;">Next, we inspect the web page source code. We notice the following obfuscated string:</p>
+          <img src="./images/Pasted image 20260407182005.png" alt="Obfuscated HTML Source Code Note" class="writeup-img" />
+
+          <p style="margin-top: 15px;">The text is encoded using ROT13 cipher. We decode it via rot13.com to reveal the hidden developer note:</p>
+          <pre style="background: #07030F; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 8px; border: 1px solid #333;"><code style="color: #66ff52;">NOTE: Jack - temporary bypass: use header "X-Dev-Access: yes"</code></pre>
+
+          <p style="margin-top: 15px;">We add the custom header <code>X-Dev-Access: yes</code> to our HTTP request using CAIDO:</p>
+          <img src="./images/Pasted image 20260407182340.png" alt="CAIDO Injected Header Request" class="writeup-img" />
+
+          <p style="margin-top: 15px;">Authentication bypassed successfully, exposing the flag:</p>
+          <img src="./images/Pasted image 20260407182404.png" alt="PicoCTF Flag Successfully Retrieved" class="writeup-img" />
+
+        </div>
+
+      </article>
+
+      <!-- BOTONES DE NAVEGACIÓN -->
+      <div class="button-container" style="margin-top: 40px; display: flex; justify-content: center; gap: 15px;">
+        <a href="writeups.html" class="button-33" role="button">Back to Writeups</a>
+        <a href="../../" class="button-33" role="button">Back home</a>
+      </div>
+
+    </main>
+  </body>
+</html>
