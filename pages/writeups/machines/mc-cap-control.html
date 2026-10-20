@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTB Control Machine | Diego Chávez</title>
+    <link rel="stylesheet" href="../../../styles/global.css" />
+    <link rel="stylesheet" href="../../../styles/button.css" />
+    <link rel="stylesheet" href="../../../styles/about.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
+    />
+  </head>
+  <body>
+    <main class="content-wrapper" style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
+      
+      <!-- ENCABEZADO Y ETIQUETAS -->
+      <section class="hero" style="text-align: left; margin-bottom: 30px;">
+        <h1 style="color: var(--link-hover-color); font-size: 2.3rem; margin-bottom: 10px;">HTB: Control</h1>
+        
+        <div class="tags" style="margin: 15px 0; display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="background: rgba(255, 67, 80, 0.15); color: #ff4350; border: 1px solid rgba(255, 67, 80, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">#Hard</span>
+          <span style="background: rgba(0, 162, 255, 0.15); color: #00a2ff; border: 1px solid rgba(0, 162, 255, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#windows</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#SQLi</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#AppLockerBypass</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#ImagePathHijacking</span>
+        </div>
+      </section>
+
+      <!-- SECCIÓN DE PRUEBA Y RESUMEN TÉCNICO -->
+      <article class="writeup-body" style="line-height: 1.8; color: #e2e8f0;">
+        <div class="step-card" style="background: rgba(22, 2, 61, 0.4); padding: 30px; border-radius: 12px; border: 1px solid rgba(89, 249, 255, 0.15); text-align: center;">
+          
+          <h2 style="color: #59f9ff; font-size: 1.6rem; margin-bottom: 15px;">Machine Completion Proof</h2>
+          
+          <p style="color: #cccccc; max-width: 700px; margin: 0 auto 20px auto; font-size: 0.95rem; text-align: left;">
+            Techniques & methodologies involved during target exploitation:
+          </p>
+
+          <ul style="color: #b0b4c7; text-align: left; max-width: 700px; margin: 0 auto 25px auto; padding-left: 20px; font-size: 0.9rem;">
+            <li>Error-Based SQL Injection (SQLi) & Advanced Bash Scripting for automated data extraction.</li>
+            <li>SQLi to Remote Code Execution via <code>INTO OUTFILE</code> (PHP Web Shell Creation).</li>
+            <li>Fully Interactive Reverse Shell handling on Windows via ConPtyShell.</li>
+            <li>Pivoting/lateral movement with <code>ScriptBlocks</code> and <code>PSCredential</code> to execute commands as another user.</li>
+            <li>AppLocker policy analysis and bypass execution.</li>
+            <li>Privilege escalation enumeration using WinPEAS and registry Service <code>ImagePath</code> Hijacking.</li>
+          </ul>
+
+          <a 
+            href="https://labs.hackthebox.com/achievement/machine/1711388/218" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="button-33" 
+            style="display: inline-block; padding: 12px 25px; font-size: 1rem;"
+          >
+            View Official HTB Achievement 🔗
+          </a>
+
+        </div>
+      </article>
+
+      <!-- BOTONES DE NAVEGACIÓN -->
+      <div class="button-container" style="margin-top: 40px; display: flex; justify-content: center; gap: 15px;">
+        <a href="machines.html" class="button-33" role="button">Back to Machines</a>
+        <a href="../../../" class="button-33" role="button">Back home</a>
+      </div>
+
+    </main>
+  </body>
+</html>
