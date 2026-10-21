@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SQLI #1 Lab | Diego Chávez</title>
+    <link rel="stylesheet" href="../../styles/global.css" />
+    <link rel="stylesheet" href="../../styles/button.css" />
+    <link rel="stylesheet" href="../../styles/about.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
+    />
+    <style>
+      .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        margin-bottom: 30px;
+        border-bottom: 1px solid rgba(89, 249, 255, 0.15);
+      }
+
+      .nav-brand {
+        color: #59f9ff;
+        font-weight: bold;
+        font-size: 1.1rem;
+        text-decoration: none;
+        font-family: 'Anonymous Pro', monospace;
+      }
+
+      .code-block-container {
+        position: relative;
+        margin: 15px 0 25px 0;
+        background: #07030F;
+        border: 1px solid rgba(89, 249, 255, 0.2);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(22, 2, 61, 0.8);
+        padding: 8px 16px;
+        border-bottom: 1px solid rgba(89, 249, 255, 0.15);
+        color: #59f9ff;
+        font-family: 'Anonymous Pro', monospace;
+        font-size: 0.85rem;
+      }
+
+      .copy-btn {
+        background: rgba(89, 249, 255, 0.1);
+        border: 1px solid rgba(89, 249, 255, 0.3);
+        color: #59f9ff;
+        padding: 4px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: 'Anonymous Pro', monospace;
+        font-size: 0.75rem;
+        transition: all 0.2s ease;
+      }
+
+      .copy-btn:hover {
+        background: rgba(89, 249, 255, 0.25);
+        box-shadow: 0 0 8px rgba(89, 249, 255, 0.3);
+      }
+
+      pre code {
+        display: block;
+        padding: 15px;
+        overflow-x: auto;
+        color: #e2e8f0;
+        font-family: 'Anonymous Pro', monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .step-card {
+        background: rgba(22, 2, 61, 0.4);
+        padding: 30px;
+        border-radius: 12px;
+        border: 1px solid rgba(89, 249, 255, 0.15);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="content-wrapper" style="max-width: 900px; margin: 0 auto; padding: 20px;">
+      
+      <!-- NAV SUPERIOR -->
+      <nav class="top-nav">
+        <a href="../labs.html" class="nav-brand">&gt;_ diego_chavez / labs / sqli-1</a>
+        <div style="display: flex; gap: 10px;">
+          <a href="../labs.html" class="button-33" style="padding: 6px 14px; font-size: 0.85rem;">Back to Labs</a>
+          <a href="../../index.html" class="button-33" style="padding: 6px 14px; font-size: 0.85rem;">Home</a>
+        </div>
+      </nav>
+
+      <!-- ENCABEZADO -->
+      <section class="hero" style="text-align: left; margin-bottom: 30px;">
+        <h1 style="color: var(--link-hover-color); font-size: 2.3rem; margin-bottom: 10px;">SQLI #1 — Authentication Bypass Lab</h1>
+        
+        <div class="tags" style="margin: 15px 0; display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="background: rgba(0, 245, 212, 0.15); color: #00f5d4; border: 1px solid rgba(0, 245, 212, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.85rem; font-weight: bold;">Docker Lab</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#SQLI</span>
+          <span style="background: rgba(255,0,193,0.1); color: #ff00c1; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#Docker</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem;">#Web</span>
+        </div>
+      </section>
+
+      <!-- CONTENIDO PRINCIPAL -->
+      <article class="step-card">
+        
+        <h2 style="color: #59f9ff; font-size: 1.4rem; margin-bottom: 10px;">Lab Setup Instructions</h2>
+        <p style="color: #cccccc; margin-bottom: 20px;">
+          Create a directory on your system and place the following 4 files inside. Then, launch the lab environment using Docker Compose.
+        </p>
+
+        <!-- ARCHIVO 1: docker-compose.yml -->
+        <div class="code-block-container">
+          <div class="code-header">
+            <span>docker-compose.yml</span>
+            <button class="copy-btn" onclick="copyCode('code-docker-compose', this)">Copy</button>
+          </div>
+          <pre><code id="code-docker-compose">version: '3.8'
+services:
+  db:
+    image: mysql:5.7
+    container_name: sqli_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: lab_sql_injection
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+  web:
+    build: .
+    container_name: sqli_web
+    ports:
+      - "8001:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    restart: always</code></pre>
+        </div>
+
+        <!-- ARCHIVO 2: Dockerfile -->
+        <div class="code-block-container">
+          <div class="code-header">
+            <span>Dockerfile</span>
+            <button class="copy-btn" onclick="copyCode('code-dockerfile', this)">Copy</button>
+          </div>
+          <pre><code id="code-dockerfile">FROM php:7.4-apache
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+RUN a2enmod rewrite</code></pre>
+        </div>
+
+        <!-- ARCHIVO 3: index.php -->
+        <div class="code-block-container">
+          <div class="code-header">
+            <span>index.php</span>
+            <button class="copy-btn" onclick="copyCode('code-index-php', this)">Copy</button>
+          </div>
+          <pre><code id="code-index-php">&lt;?php
+// Nota: Usamos el nombre del servicio de docker 'db' como host
+$host = 'db';
+$usuario = 'root';
+$password = 'rootpassword';
+$base_datos = 'lab_sql_injection';
+$conexion = new mysqli($host, $usuario, $password, $base_datos);
+$mensaje = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    // Login vulnerable
+    $sql = "SELECT * FROM usuarios WHERE username = '$username' AND password = '$password'";
+    
+    $resultado = $conexion-&gt;query($sql);
+    if ($resultado &amp;&amp; $resultado-&gt;num_rows &gt; 0) {
+        $fila = $resultado-&gt;fetch_assoc();
+        $mensaje = "&lt;p style='color:green;'&gt;¡Bienvenido, " . $fila['username'] . "! Acceso concedido.&lt;/p&gt;";
+    } else {
+        $mensaje = "&lt;p style='color:red;'&gt;Credenciales incorrectas.&lt;/p&gt;";
+    }
+}
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Login Vulnerable - SQLi&lt;/title&gt;
+&lt;/head&gt;
+&lt;body style="font-family: Arial, sans-serif; margin: 50px;"&gt;
+    &lt;h2&gt;Laboratorio SQL Injection (Login)&lt;/h2&gt;
+    &lt;form method="POST" action=""&gt;
+        &lt;label&gt;Usuario:&lt;/label&gt;&lt;br&gt;
+        &lt;input type="text" name="username" required style="padding: 5px; width: 250px;"&gt;&lt;br&gt;&lt;br&gt;
+        
+        &lt;label&gt;Contraseña:&lt;/label&gt;&lt;br&gt;
+        &lt;input type="password" name="password" required style="padding: 5px; width: 250px;"&gt;&lt;br&gt;&lt;br&gt;
+        
+        &lt;input type="submit" value="Entrar" style="padding: 8px 15px;"&gt;
+    &lt;/form&gt;
+    &lt;div&gt;
+        &lt;?php echo $mensaje; ?&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <!-- ARCHIVO 4: init.sql -->
+        <div class="code-block-container">
+          <div class="code-header">
+            <span>init.sql</span>
+            <button class="copy-btn" onclick="copyCode('code-init-sql', this)">Copy</button>
+          </div>
+          <pre><code id="code-init-sql">CREATE DATABASE IF NOT EXISTS lab_sql_injection;
+USE lab_sql_injection;
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL
+);
+INSERT INTO usuarios (username, password) VALUES ('admin', 'h4ckmYPassw0rd!');</code></pre>
+        </div>
+
+        <!-- COMANDOS DE EJECUCIÓN DOCKER -->
+        <h2 style="color: #59f9ff; font-size: 1.4rem; margin-top: 35px; margin-bottom: 10px;">Deployment Commands</h2>
+        <p style="color: #cccccc;">
+          Open your terminal in the directory where you saved the files and execute the following commands:
+        </p>
+
+        <p style="color: #b0b4c7; margin-top: 15px; margin-bottom: 5px;">Build and start the laboratory containers:</p>
+        <div class="code-block-container">
+          <div class="code-header">
+            <span>Terminal</span>
+            <button class="copy-btn" onclick="copyCode('cmd-up', this)">Copy</button>
+          </div>
+          <pre><code id="cmd-up">sudo docker compose up -d --build</code></pre>
+        </div>
+
+        <p style="color: #b0b4c7; margin-top: 15px; margin-bottom: 5px;">Access the application via web browser at:</p>
+        <pre style="background: #07030F; padding: 12px; border-radius: 6px; border: 1px solid #333; margin-bottom: 20px;"><code style="color: #66ff52;">http://localhost:8001</code></pre>
+
+        <p style="color: #b0b4c7; margin-top: 15px; margin-bottom: 5px;">Stop and remove the laboratory containers when done:</p>
+        <div class="code-block-container">
+          <div class="code-header">
+            <span>Terminal</span>
+            <button class="copy-btn" onclick="copyCode('cmd-down', this)">Copy</button>
+          </div>
+          <pre><code id="cmd-down">sudo docker compose down -v</code></pre>
+        </div>
+
+      </article>
+
+      <!-- BOTONES DE NAVEGACIÓN -->
+      <div class="button-container" style="margin-top: 40px; display: flex; justify-content: center; gap: 15px;">
+        <a href="../labs.html" class="button-33" role="button">Back to Labs</a>
+        <a href="../../index.html" class="button-33" role="button">Back home</a>
+      </div>
+
+    </main>
+
+    <!-- SCRIPT DE COPIADO AL PORTAPAPELES -->
+    <script>
+      function copyCode(elementId, btnElement) {
+        const codeElement = document.getElementById(elementId);
+        const textToCopy = codeElement.innerText;
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const originalText = btnElement.innerText;
+          btnElement.innerText = 'Copied!';
+          btnElement.style.background = 'rgba(0, 245, 212, 0.3)';
+          btnElement.style.color = '#00f5d4';
+
+          setTimeout(() => {
+            btnElement.innerText = originalText;
+            btnElement.style.background = 'rgba(89, 249, 255, 0.1)';
+            btnElement.style.color = '#59f9ff';
+          }, 2000);
+        }).catch(err => {
+          console.error('Error copying code: ', err);
+        });
+      }
+    </script>
+  </body>
+</html>

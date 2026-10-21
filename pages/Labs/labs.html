@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cybersecurity Practice Labs | Diego Chávez</title>
+  <link rel="stylesheet" href="../../styles/global.css" />
+  <link rel="stylesheet" href="../../styles/button.css" />
+  <link rel="stylesheet" href="../../styles/about.css" />
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
+  />
+  <style>
+      /* NAV SUPERIOR */
+      .top-nav {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px 0;
+          margin-bottom: 30px;
+          border-bottom: 1px solid rgba(89, 249, 255, 0.15);
+      }
+
+      .nav-brand {
+          color: #59f9ff;
+          font-weight: bold;
+          font-size: 1.2rem;
+          text-decoration: none;
+          font-family: 'Anonymous Pro', monospace;
+      }
+
+      .nav-links {
+          display: flex;
+          gap: 15px;
+      }
+
+      /* BUSCADOR Y FILTROS */
+      .search-container {
+          margin: 0 auto 20px auto;
+          max-width: 700px;
+      }
+
+      .search-input {
+          width: 100%;
+          padding: 12px 18px;
+          background: rgba(7, 3, 15, 0.7);
+          border: 1px solid rgba(89, 249, 255, 0.3);
+          border-radius: 8px;
+          color: #59f9ff;
+          font-family: 'Anonymous Pro', monospace, sans-serif;
+          font-size: 1rem;
+          outline: none;
+          box-sizing: border-box;
+          transition: all 0.3s ease;
+      }
+
+      .search-input::placeholder {
+          color: rgba(176, 180, 199, 0.5);
+      }
+
+      .search-input:focus {
+          border-color: #59f9ff;
+          box-shadow: 0 0 12px rgba(89, 249, 255, 0.3);
+          background: rgba(13, 5, 29, 0.9);
+      }
+
+      .filter-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          justify-content: center;
+          margin-bottom: 35px;
+      }
+
+      .filter-btn {
+          background: rgba(22, 2, 61, 0.6);
+          border: 1px solid rgba(89, 249, 255, 0.2);
+          color: #b0b4c7;
+          padding: 6px 14px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-family: 'Anonymous Pro', monospace;
+          font-size: 0.85rem;
+          transition: all 0.3s ease;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+          background: rgba(89, 249, 255, 0.15);
+          border-color: #59f9ff;
+          color: #59f9ff;
+          box-shadow: 0 0 8px rgba(89, 249, 255, 0.2);
+      }
+
+      /* TARJETAS DE LABS */
+      .lab-card {
+          background: rgba(22, 2, 61, 0.5);
+          border: 1px solid rgba(89, 249, 255, 0.2);
+          border-radius: 12px;
+          padding: 25px;
+          transition: all 0.3s ease;
+      }
+
+      .lab-card:hover {
+          border-color: #ff00c1;
+          transform: translateY(-3px);
+          box-shadow: 0 5px 15px rgba(255, 0, 193, 0.2);
+      }
+  </style>
+</head>
+<body>
+<main class="content-wrapper" style="max-width: 900px; margin: 0 auto; padding: 20px;">
+
+  <!-- NAV SUPERIOR -->
+  <nav class="top-nav">
+    <a href="../../index.html" class="nav-brand">&gt;Offensive / labs</a>
+    <div class="nav-links">
+      <a href="../../index.html" class="button-33" style="padding: 6px 14px; font-size: 0.85rem;">Home</a>
+      <a href="../writeups.html" class="button-33" style="padding: 6px 14px; font-size: 0.85rem;">Writeups</a>
+    </div>
+  </nav>
+
+  <!-- ENCABEZADO -->
+  <section class="hero" style="text-align: center; margin-bottom: 30px;">
+    <h1 style="color: var(--link-hover-color); font-size: 2.8rem; margin-bottom: 15px;">Vulnerable Practice Labs</h1>
+    <p style="color: #b0b4c7; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+      Custom Docker-based environments designed to practice web application security, exploitation vectors, and penetration testing techniques.
+    </p>
+  </section>
+
+  <!-- BARRA DE BÚSQUEDA -->
+  <div class="search-container">
+    <input
+      type="text"
+      id="search-input"
+      class="search-input"
+      placeholder="Search lab by title or tag (#SQLI, #Docker)..."
+      autocomplete="off"
+    />
+  </div>
+
+  <!-- FILTROS POR CATEGORÍA -->
+  <div class="filter-group">
+    <button class="filter-btn active" data-filter="all">All Labs</button>
+    <button class="filter-btn" data-filter="sqli">SQLi</button>
+    <button class="filter-btn" data-filter="xss">XSS</button>
+    <button class="filter-btn" data-filter="nosqli">NoSQLi</button>
+  </div>
+
+  <!-- LISTA / CUADRÍCULA DE LABS -->
+  <section class="labs-grid" style="display: flex; flex-direction: column; gap: 20px;">
+
+    <!-- Tarjeta SQLI #1 -->
+    <a href="sqli-1.html" style="text-decoration: none;" data-category="sqli">
+      <div class="lab-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <h3 style="color: #59f9ff; font-size: 1.4rem; margin: 0;">SQLI #1</h3>
+          <span style="background: rgba(0, 245, 212, 0.15); color: #00f5d4; border: 1px solid rgba(0, 245, 212, 0.3); padding: 4px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold;">Docker Lab</span>
+        </div>
+
+        <p style="color: #cccccc; margin-top: 10px; font-size: 0.95rem;">
+          Intentionally vulnerable environment designed to practice SQL Injection techniques, database enumeration, and custom payload crafting.
+        </p>
+
+        <div class="tags" style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#SQLI</span>
+          <span style="background: rgba(255,0,193,0.1); color: #ff00c1; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#Docker</span>
+          <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#Web</span>
+        </div>
+      </div>
+    </a>
+
+  </section>
+
+  <!-- BOTONES DE NAVEGACIÓN -->
+  <div class="button-container" style="margin-top: 40px; display: flex; justify-content: center; gap: 15px;">
+    <a href="../../index.html" class="button-33" role="button">Back home</a>
+  </div>
+
+</main>
+
+<!-- SCRIPT DE FILTRADO Y BÚSQUEDA -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("search-input");
+        const filterBtns = document.querySelectorAll(".filter-btn");
+        const labCards = document.querySelectorAll(".labs-grid > a");
+
+        let activeFilter = "all";
+
+        function filterLabs() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            labCards.forEach((card) => {
+                const category = card.getAttribute("data-category");
+                const text = card.textContent.toLowerCase();
+
+                const matchesSearch = text.includes(query);
+                const matchesCategory = activeFilter === "all" || category === activeFilter;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        filterBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                filterBtns.forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+                activeFilter = btn.getAttribute("data-filter");
+                filterLabs();
+            });
+        });
+
+        if (searchInput) {
+            searchInput.addEventListener("input", filterLabs);
+        }
+    });
+</script>
+</body>
+</html>
