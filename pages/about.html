@@ -3,262 +3,125 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="About Diego Chávez: experience, education and technical stack." />
+    <title>About | Diego Chávez</title>
     <link rel="stylesheet" href="../styles/global.css" />
-    <link rel="stylesheet" href="../styles/about.css" />
-    <link rel="stylesheet" href="../styles/button.css" />
+    <link rel="stylesheet" href="../styles/pages.css" />
     <link
       rel="icon"
       type="image/png"
       href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
     />
-    <title>About Me | Diego Chávez</title>
   </head>
   <body>
-    <main class="content-wrapper">
-      <section class="hero">
-        <h1 class="title">About Me</h1>
-        <p class="resume">
-          Software Engineer with 2 years of experience specializing in
-          <strong>Offensive Security</strong> and
-          <strong>Full Stack Development</strong>. My focus lies in building
-          secure, scalable systems and conducting vulnerability research.
+    <main id="top">
+      <header class="page-header container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../index.html">Home</a><span>/</span>About
+        </nav>
+        <span class="eyebrow">Background</span>
+        <h1 class="page-title">About me</h1>
+        <p class="page-lead">
+          Pentester specialising in web and API security. I test against the OWASP
+          Top 10, document every finding, and bring two years of full-stack
+          development experience to how I build and break systems.
         </p>
+      </header>
+
+      <section class="section container" aria-labelledby="experience-title">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Career</span>
+          <h2 class="section-title" id="experience-title">Experience</h2>
+        </div>
+
+        <div class="timeline">
+          <article class="card timeline-item" data-reveal>
+            <span class="period">Sep 2025 – Jan 2026</span>
+            <h3>Full Stack &amp; React Native · Liomet TI</h3>
+            <p>
+              UI/UX design with Untitled UI and mobile application architecture
+              using React Native.
+            </p>
+          </article>
+
+          <article class="card timeline-item" data-reveal>
+            <span class="period">Jan 2024 – Dec 2025</span>
+            <h3>Frontend Developer · OITIC S.A. de C.V.</h3>
+            <p>
+              Critical systems with Next.js and Angular: scheduling tools, CRUD
+              catalogs and secure login flows with OTP validation.
+            </p>
+          </article>
+        </div>
       </section>
 
-      <section
-        class="experience-section"
-        style="max-width: 800px; margin: 0 auto; padding: 20px"
-      >
-        <h2
-          style="
-            color: var(--link-active-1);
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-          "
-        >
-          Professional Experience
-        </h2>
-
-        <div class="job-card" style="margin-top: 20px">
-          <h3>Full Stack & React Native | Liomet TI</h3>
-          <span style="color: #888">Sep 2025 – Jan 2026</span>
-          <p>
-            Focused on UI/UX design with Untitled UI and mobile application
-            architecture using React Native.
-          </p>
+      <section class="section container" aria-labelledby="education-title">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Education</span>
+          <h2 class="section-title" id="education-title">Training</h2>
         </div>
 
-        <div class="job-card" style="margin-top: 20px">
-          <h3>Frontend Developer | OITIC S.A de C.V</h3>
-          <span style="color: #888">Jan 2024 – Dic 2025</span>
-          <p>
-            Development of critical systems using Next.js and Angular, including
-            schedule management, CRUD catalogs, and secure login systems with
-            OTP validation.
-          </p>
-        </div>
-
-        <h2
-          style="
-            color: var(--link-active-1);
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-            margin-top: 40px;
-          "
-        >
-          Education & Training
-        </h2>
-
-        <ul style="list-style: none; padding: 0; margin-top: 20px">
-          <li style="margin-bottom: 15px">
-            <strong>Software Engineering</strong> - Universidad Politécnica de
-            Tecámac (2022-2025)
+        <ul class="edu-list">
+          <li data-reveal>
+            <strong>Software Engineering · Universidad Politécnica de Tecámac</strong>
+            <span>2022 – 2025</span>
           </li>
-          <li>
-            <strong>Ethical Hacking & Pentesting</strong> - Hack4u.io Academy
-            (Current)
+          <li data-reveal>
+            <strong>Ethical Hacking &amp; Pentesting · Hack4u.io Academy</strong>
+            <span>In progress</span>
           </li>
         </ul>
       </section>
 
-      <section
-        class="stack-section"
-        style="max-width: 800px; margin: 40px auto; padding: 20px"
-      >
-        <!-- WEB SECTION -->
-        <div>
-          <h2
-            style="
-              color: var(--link-active-1);
-              border-bottom: 1px solid #333;
-              padding-bottom: 10px;
-            "
-          >
-            Web Development Stack
-          </h2>
-          <div
-            class="stack-grid"
-            style="
-              display: flex;
-              gap: 20px;
-              flex-wrap: wrap;
-              margin-top: 20px;
-              margin-bottom: 40px;
-            "
-          >
-            <div class="stack-item" title="Next.js">
-              <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
-              <span
-                class="iconify"
-                data-icon="logos:nextjs-icon"
-                data-width="40"
-              ></span>
-            </div>
-            <div class="stack-item" title="React">
-              <span
-                class="iconify"
-                data-icon="logos:react"
-                data-width="40"
-              ></span>
-            </div>
-            <div class="stack-item" title="Angular">
-              <span
-                class="iconify"
-                data-icon="logos:angular-icon"
-                data-width="40"
-              ></span>
-            </div>
-            <div class="stack-item" title="TypeScript">
-              <span
-                class="iconify"
-                data-icon="logos:typescript-icon"
-                data-width="40"
-              ></span>
-            </div>
-            <div class="stack-item" title="Vite">
-              <span
-                class="iconify"
-                data-icon="logos:vitejs"
-                data-width="40"
-              ></span>
-            </div>
-            <div class="stack-item" title="Flutter">
-              <span
-                class="iconify"
-                data-icon="logos:flutter"
-                data-width="40"
-              ></span>
-            </div>
-
-            <div class="stack-item" title="React Native">
-              <span
-                class="iconify"
-                data-icon="logos:react"
-                data-width="40"
-              ></span>
-            </div>
-
-            <div class="stack-item" title="NestJS">
-              <span
-                class="iconify"
-                data-icon="logos:nestjs"
-                data-width="40"
-              ></span>
-            </div>
-
-            <div class="stack-item" title="Golang">
-              <span class="iconify" data-icon="logos:go" data-width="40"></span>
-            </div>
-          </div>
+      <section class="section container" aria-labelledby="stack-title">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Stack</span>
+          <h2 class="section-title" id="stack-title">Tools I work with</h2>
         </div>
 
-        <!-- HACK SECTION -->
-        <div>
-          <h2
-            style="
-              color: var(--link-active-1);
-              border-bottom: 1px solid #333;
-              padding-bottom: 10px;
-            "
-          >
-            Pentesting Stack
-          </h2>
-          <div
-            class="stack-grid"
-            style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px"
-          >
-            <div class="stack-item" title="Burp Suite">
-              <span
-                class="iconify"
-                data-icon="simple-icons:burpsuite"
-                data-width="40"
-              ></span>
-            </div>
+        <div class="skill-groups">
+          <article class="card skill-group" data-reveal>
+            <span class="badge">Development</span>
+            <h3>Web &amp; mobile</h3>
+            <p>Interfaces, APIs and applications built for real users.</p>
+            <ul class="skill-list">
+              <li class="tag">Next.js</li>
+              <li class="tag">React</li>
+              <li class="tag">Angular</li>
+              <li class="tag">TypeScript</li>
+              <li class="tag">Vite</li>
+              <li class="tag">Flutter</li>
+              <li class="tag">React Native</li>
+              <li class="tag">NestJS</li>
+              <li class="tag">Go</li>
+            </ul>
+          </article>
 
-            <div class="stack-item" title="Kali Linux">
-              <span
-                class="iconify"
-                data-icon="simple-icons:kalilinux"
-                data-width="40"
-              ></span>
-            </div>
+          <article class="card skill-group" data-reveal>
+            <span class="badge badge-violet">Security</span>
+            <h3>Pentesting</h3>
+            <p>Reconnaissance, exploitation and post-exploitation tooling.</p>
+            <ul class="skill-list">
+              <li class="tag">Burp Suite</li>
+              <li class="tag">Kali Linux</li>
+              <li class="tag">Arch Linux</li>
+              <li class="tag">Nmap</li>
+              <li class="tag">Metasploit</li>
+              <li class="tag">Bash</li>
+              <li class="tag">Python</li>
+              <li class="tag">PHP</li>
+            </ul>
+          </article>
+        </div>
 
-            <div class="stack-item" title="Arch Linux">
-              <span
-                class="iconify"
-                data-icon="logos:archlinux"
-                data-width="40"
-              ></span>
-            </div>
-
-            <div class="stack-item" title="Nmap">
-              <span
-                class="iconify"
-                data-icon="mdi:radar"
-                data-width="40"
-              ></span>
-            </div>
-
-            <div class="stack-item" title="Metasploit">
-              <span
-                class="iconify"
-                data-icon="simple-icons:metasploit"
-                data-width="40"
-              ></span>
-            </div>
-
-            <div class="stack-item" title="Bash">
-              <span
-                class="iconify"
-                data-icon="logos:bash-icon"
-                data-width="40"
-              ></span>
-            </div>
-
-            <div class="stack-item" title="Python">
-              <span
-                class="iconify"
-                data-icon="logos:python"
-                data-width="40"
-              ></span>
-            </div>
-
-            <div class="stack-item" title="PHP">
-              <span
-                class="iconify"
-                data-icon="logos:php"
-                data-width="40"
-              ></span>
-            </div>
-          </div>
+        <div class="button-container">
+          <a class="btn" href="../index.html#contact">Get in touch</a>
+          <a class="btn btn-outline" href="writeups.html">See writeups</a>
         </div>
       </section>
-
-      <div class="button-container">
-        <a href="../" class="button-33">Back home</a>
-        <a href="writeups.html" class="button-33">Writeups</a>
-        <a href="works.html" class="button-33">Projects</a>
-      </div>
     </main>
+
+    <script src="../scripts/layout.js"></script>
+    <script src="../scripts/main.js"></script>
   </body>
 </html>

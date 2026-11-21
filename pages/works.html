@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Loading... | Diego Chávez</title>
-    <link rel="stylesheet" href="../styles/loading.css" />
-    <link rel="stylesheet" href="../styles/button.css" />
+    <meta name="description" content="Projects by Diego Chávez: web apps, mobile apps, AI experiments and enterprise systems." />
+    <title>Projects | Diego Chávez</title>
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/pages.css" />
     <link
       rel="icon"
       type="image/png"
@@ -13,16 +14,130 @@
     />
   </head>
   <body>
-    <div class="loading-container" id="loader">
-      <div class="scanline"></div>
-      <div class="loader-content">
-        <div class="loader"></div>
-        <div class="loading-text">Work in progress</div>
-        <div class="status-bar"><div class="progress"></div></div>
-        <div class="button-container">
-          <a href="../" class="button-33">Back home</a>
+    <main id="top">
+      <header class="page-header container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../index.html">Home</a><span>/</span>Projects
+        </nav>
+        <span class="eyebrow">Portfolio</span>
+        <h1 class="page-title">Projects</h1>
+        <p class="page-lead">
+          Web, mobile and security-oriented work. Each project focuses on a clear
+          problem and a clean, maintainable implementation.
+        </p>
+      </header>
+
+      <section class="section container" aria-label="Project catalog">
+        <div class="filter-group" data-filter-name="category">
+          <button class="filter-btn active" type="button" data-filter-value="all" aria-pressed="true">All projects</button>
+          <button class="filter-btn" type="button" data-filter-value="web" aria-pressed="false">Web</button>
+          <button class="filter-btn" type="button" data-filter-value="mobile" aria-pressed="false">Mobile</button>
+          <button class="filter-btn" type="button" data-filter-value="ai" aria-pressed="false">AI</button>
+          <button class="filter-btn" type="button" data-filter-value="enterprise" aria-pressed="false">Enterprise</button>
         </div>
-      </div>
-    </div>
+
+        <div class="project-grid">
+          <article class="card project-card" data-searchable data-category="web" data-reveal>
+            <div class="project-media">
+              <img src="../images/bank/bank_login.png" alt="Bank login screen" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <span class="badge">Web app</span>
+              <h3>Bank Login System</h3>
+              <p>
+                Frontend for an online bank: authentication, account overview,
+                password change and profile views.
+              </p>
+              <div class="project-tags">
+                <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Auth flow</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project-card" data-searchable data-category="mobile" data-reveal>
+            <div class="project-media">
+              <img src="../images/coffee/cafe_user_menu.png" alt="Coffee shop app menu" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <span class="badge badge-violet">Mobile</span>
+              <h3>Coffee Shop App</h3>
+              <p>
+                Restaurant simulation with customer ordering, employee view and
+                admin product management.
+              </p>
+              <div class="project-tags">
+                <span class="tag">App</span><span class="tag">CRUD</span><span class="tag">Roles</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project-card" data-searchable data-category="web" data-reveal>
+            <div class="project-media">
+              <img src="../images/food/food_home.png" alt="Food delivery home screen" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <span class="badge">Web app</span>
+              <h3>Food Delivery UI</h3>
+              <p>
+                Responsive restaurant ordering interface with browsing, cart and
+                order tracking views.
+              </p>
+              <div class="project-tags">
+                <span class="tag">React</span><span class="tag">UI/UX</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project-card" data-searchable data-category="ai" data-reveal>
+            <div class="project-media">
+              <img src="../images/IA/ia_no_description.png" alt="AI image description result" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <span class="badge badge-violet">Experiment</span>
+              <h3>AI Image Describer</h3>
+              <p>
+                Prototype that uses the Gemini API to generate descriptions for
+                uploaded images.
+              </p>
+              <div class="project-tags">
+                <span class="tag">Gemini API</span><span class="tag">JavaScript</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project-card" data-searchable data-category="enterprise" data-reveal>
+            <div class="project-media">
+              <div class="project-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="4" y="10" width="16" height="11" rx="2" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+                </svg>
+              </div>
+            </div>
+            <div class="project-body">
+              <span class="badge">Confidential</span>
+              <h3>Enterprise CRM</h3>
+              <p>
+                Internal CRUD platform built with Next.js for a private company.
+                Source and screenshots are not public.
+              </p>
+              <div class="project-tags">
+                <span class="tag">Next.js</span><span class="tag">CRUD</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <p class="empty-state" data-empty hidden>No projects match this filter.</p>
+
+        <div class="button-container">
+          <a class="btn btn-outline" href="../index.html">Back home</a>
+          <a class="btn" href="skills.html">See skills</a>
+        </div>
+      </section>
+    </main>
+
+    <script src="../scripts/layout.js"></script>
+    <script src="../scripts/main.js"></script>
   </body>
 </html>

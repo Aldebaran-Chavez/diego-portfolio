@@ -3,14 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Diego Chávez | Pentester</title>
+    <meta
+      name="description"
+      content="Diego Chávez — pentester specialising in web and API security, OWASP Top 10 testing and vulnerability research."
+    />
+    <title>Diego Chávez | Pentester &amp; Web Security</title>
     <link rel="stylesheet" href="styles/global.css" />
-    <link rel="stylesheet" href="styles/menu.css" />
-    <link rel="stylesheet" href="styles/skills.css" />
-    <link rel="stylesheet" href="styles/home.css" />
-    <link rel="stylesheet" href="styles/button.css" />
-    <link rel="stylesheet" href="styles/carrusel.css" />
-    <link rel="stylesheet" href="styles/mail.css" />
+    <link rel="stylesheet" href="styles/pages.css" />
     <link
       rel="icon"
       type="image/png"
@@ -18,376 +17,336 @@
     />
   </head>
   <body>
-    <div>
-      <div>
-        <button class="switch-mode">
-          <!-- svg -->
-        </button>
-      </div>
-
-      <div class="wave-background">
-        <div class="wave">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-
-      <div>
-        <div class="wrapper">
-          <a href="#home" class="item-link active">Home</a>
-          <a href="./pages/about.html" class="item-link">About</a>
-          <a href="./pages/Labs/labs.html" class="item-link">Labs</a>
-          <a href="#skills" class="item-link">Skills</a>
-          <a href="./pages/writeups.html" class="item-link">Writeups</a>
-          <a href="./pages/writeups/machines/machines.html" class="item-link">Machines</a>
-        </div>
-      </div>
-
-      <!-- jQuery -->
-      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-      <!-- JS -->
-      <script src="/scripts/menu.js"></script>
-    </div>
-
-    <!-- DESCRIPTION -->
-    <div>
+    <main id="top">
+      <!-- HERO -->
       <section class="hero" id="home">
-        <h1>Diego Chávez</h1>
-        <h2>Pentester | Ethical Hacker | React Dev | Mobile Dev | OWASP</h2>
-        <p>
-          I focus on offensive security, vulnerability research and automation.
-          I have experience in OWASP TOP 10 and Web hacking. I'm experienced on
-          Linux for pentesters like Parrot OS, Arch and Kali. Entusiast of
-          hacking tools.
-        </p>
-        <br />
-        <div class="contact-container">
-          <div class="mail-tooltip" id="mailCopy">
-            <span class="iconify mail-icon" data-icon="mdi:email"></span>
-            <span class="mail-text" id="mailText">
-              aldebaran.gzz.dc@gmail.com
-            </span>
+        <div class="container hero-grid">
+          <div>
+            <span class="eyebrow">Offensive security &amp; development</span>
+            <h1>Diego<br /><span>Chávez.</span></h1>
+            <p class="hero-role">Pentester · Web &amp; API exploitation · OWASP Top 10</p>
+            <p class="hero-lead">
+              I focus on offensive security, vulnerability research and automation.
+              Experienced with the OWASP Top 10 and web application hacking, backed
+              by hands-on development with React, Next.js and Node.js.
+            </p>
+
+            <div class="btn-group hero-actions">
+              <a class="btn" href="#projects">View projects</a>
+              <a class="btn btn-outline" href="pages/about.html">About me</a>
+            </div>
+
+            <div class="hero-meta">
+              <span><strong>Based in</strong> Mexico</span>
+              <span><strong>Focus</strong> Web &amp; infrastructure</span>
+              <span><strong>Status</strong> Open to collaborations</span>
+            </div>
           </div>
-          |
-          <a
-            href="https://www.linkedin.com/in/diego-chávez-offsec?utm_source=share_via&utm_content=profile&utm_medium=member_android"
-          >
-            linkedin-diego
-          </a>
+
+          <aside class="terminal" aria-label="Quick introduction">
+            <div class="terminal-bar">
+              <i></i><i></i><i></i><span>~/diego/profile</span>
+            </div>
+            <pre><span class="prompt">$</span> whoami
+<span class="value">diego — pentester / web &amp; api security</span>
+
+<span class="prompt">$</span> cat focus.txt
+<span class="value">web &amp; api exploitation</span>
+<span class="value">owasp top 10</span>
+<span class="value">vulnerability research</span>
+
+<span class="prompt">$</span> cat stack.txt
+<span class="value">linux · burp · bash · python</span>
+<span class="value">react · next.js · node.js</span>
+
+<span class="prompt">$</span> echo $status
+<span class="value">available for new projects</span><span class="prompt"> ▌</span></pre>
+          </aside>
         </div>
       </section>
-    </div>
 
-    <!-- WORKS SECTION -->
-    <section class="works-container" id="projects">
-      <p class="msg-supports">
-        Note: Your browser might not support CSS Scroll Markers yet.
-      </p>
-
-      <div class="carousel">
-        <div>
-          <h2>All projects</h2>
-          <p>Click here to see al projects</p>
-          <div class="img">
-            <div class="button-container">
-              <button class="button-33" role="button">
-                <a href="./pages/works.html">Watch more</a>
-              </button>
-            </div>
+      <!-- STATS -->
+      <section class="section section--flush-top" aria-label="At a glance">
+        <div class="container">
+          <div class="stats" data-reveal>
+            <div class="stat"><strong>2+</strong><span>Years of experience</span></div>
+            <div class="stat"><strong>06</strong><span>Published writeups</span></div>
+            <div class="stat"><strong>03</strong><span>Practice labs</span></div>
+            <div class="stat"><strong>10</strong><span>OWASP Top 10 focus</span></div>
           </div>
         </div>
+      </section>
 
-        <div>
-          <h2>Bank Login System</h2>
-          <p>Front end for bank with accounts, profile and home page</p>
-          <div class="img">
-            <img src="./images/bank/bank_login.png" alt="Bank Project" />
+      <!-- PROJECTS -->
+      <section class="section" id="projects">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Selected work</span>
+            <h2 class="section-title">Projects</h2>
+            <p class="section-desc">
+              A selection of web, mobile and security work — from banking interfaces
+              to vulnerability labs.
+            </p>
+          </div>
+
+          <div class="filter-group" data-filter-name="category" data-reveal>
+            <button class="filter-btn active" type="button" data-filter-value="all" aria-pressed="true">All</button>
+            <button class="filter-btn" type="button" data-filter-value="web" aria-pressed="false">Web</button>
+            <button class="filter-btn" type="button" data-filter-value="mobile" aria-pressed="false">Mobile</button>
+            <button class="filter-btn" type="button" data-filter-value="ai" aria-pressed="false">AI</button>
+            <button class="filter-btn" type="button" data-filter-value="enterprise" aria-pressed="false">Enterprise</button>
+          </div>
+
+          <div class="project-grid">
+            <a class="card project-card" href="pages/works.html" data-searchable data-category="web" data-reveal>
+              <div class="project-media">
+                <img src="images/bank/bank_login.png" alt="Bank login screen" loading="lazy" />
+              </div>
+              <div class="project-body">
+                <span class="badge">Web app</span>
+                <h3>Bank Login System</h3>
+                <p>Frontend for an online bank with accounts, profile and dashboard views.</p>
+                <div class="project-tags"><span class="tag">UI</span><span class="tag">Authentication</span></div>
+                <span class="project-link">View details →</span>
+              </div>
+            </a>
+
+            <a class="card project-card" href="pages/works.html" data-searchable data-category="mobile" data-reveal>
+              <div class="project-media">
+                <img src="images/coffee/cafe_login.png" alt="Coffee shop app login" loading="lazy" />
+              </div>
+              <div class="project-body">
+                <span class="badge badge-violet">Mobile</span>
+                <h3>Coffee Shop App</h3>
+                <p>A class project simulating a real restaurant, with customer and admin roles.</p>
+                <div class="project-tags"><span class="tag">App</span><span class="tag">CRUD</span></div>
+                <span class="project-link">View details →</span>
+              </div>
+            </a>
+
+            <a class="card project-card" href="pages/works.html" data-searchable data-category="web" data-reveal>
+              <div class="project-media">
+                <img src="images/food/food_home.png" alt="Food delivery interface" loading="lazy" />
+              </div>
+              <div class="project-body">
+                <span class="badge">Web app</span>
+                <h3>Food Delivery UI</h3>
+                <p>Responsive frontend practice for a restaurant ordering platform.</p>
+                <div class="project-tags"><span class="tag">React</span><span class="tag">UI/UX</span></div>
+                <span class="project-link">View details →</span>
+              </div>
+            </a>
+
+            <a class="card project-card" href="pages/works.html" data-searchable data-category="ai" data-reveal>
+              <div class="project-media">
+                <img src="images/IA/ia_no_description.png" alt="AI image description tool" loading="lazy" />
+              </div>
+              <div class="project-body">
+                <span class="badge badge-violet">Experiment</span>
+                <h3>AI Research</h3>
+                <p>Image description prototype built on the Gemini API.</p>
+                <div class="project-tags"><span class="tag">Gemini API</span><span class="tag">JavaScript</span></div>
+                <span class="project-link">View details →</span>
+              </div>
+            </a>
+
+            <a class="card project-card" href="pages/works.html" data-searchable data-category="enterprise" data-reveal>
+              <div class="project-media">
+                <div class="project-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="4" y="10" width="16" height="11" rx="2" />
+                    <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+                  </svg>
+                </div>
+              </div>
+              <div class="project-body">
+                <span class="badge">Confidential</span>
+                <h3>Enterprise CRM</h3>
+                <p>Internal CRUD platform built with Next.js for a private company.</p>
+                <div class="project-tags"><span class="tag">Next.js</span><span class="tag">CRUD</span></div>
+                <span class="project-link">View details →</span>
+              </div>
+            </a>
+          </div>
+
+          <div class="button-container">
+            <a class="btn btn-outline" href="pages/works.html">All projects →</a>
           </div>
         </div>
+      </section>
 
-        <div>
-          <h2>Coffee Shop App</h2>
-          <p>Mobile work for class simulating a real restaurant</p>
-          <div class="img">
-            <img src="./images/coffee/cafe_login.png" alt="Coffee Project" />
-          </div>
-        </div>
-
-        <div class="scroll-start">
-          <h2>Confidential Project</h2>
-          <p>I work in a enterprise to do crud using nextjs</p>
-          <div class="img">
-            <div class="svg-placeholder">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19 11H5C3.89543 11 3 11.8954 3 13V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V13C21 11.8954 20.1046 11 19 11Z"
-                  stroke="white"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11"
-                  stroke="white"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h2>Food Delivery UI</h2>
-          <p>React Frontend practice for a restaurant</p>
-          <div class="img">
-            <img src="./images/food/food_home.png" alt="Food Project" />
-          </div>
-        </div>
-
-        <div>
-          <h2>AI Research</h2>
-          <p>Gemini api to describe images</p>
-          <div class="img">
-            <img src="./images/IA/ia_no_description.png" alt="AI Project" />
-          </div>
-        </div>
-
-        <div>
-          <h2>Writeups</h2>
-          <p>Click here to read my write ups</p>
-          <div class="img">
-            <div class="button-container">
-              <button class="button-33" role="button">
-                <a href="./pages/writeups.html">Watch more</a>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div id="skills">
       <!-- SKILLS -->
-      <section class="skills-section">
-        <div class="grid">
-          <!-- BASH -->
-          <div class="card">
-            <h4>Bash Scripting</h4>
-            <p>
-              Automation of tasks, scripting, and system management to increase
-              efficiency and productivity.
+      <section class="section" id="skills">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Toolkit</span>
+            <h2 class="section-title">Skills</h2>
+            <p class="section-desc">
+              Two complementary sides: finding vulnerabilities and building reliable software.
             </p>
-
-            <div class="shine"></div>
-            <div class="background">
-              <div class="tiles">
-                <div class="tile tile-1"></div>
-                <div class="tile tile-2"></div>
-                <div class="tile tile-3"></div>
-                <div class="tile tile-4"></div>
-                <div class="tile tile-5"></div>
-                <div class="tile tile-6"></div>
-                <div class="tile tile-7"></div>
-                <div class="tile tile-8"></div>
-                <div class="tile tile-9"></div>
-                <div class="tile tile-10"></div>
-              </div>
-
-              <div class="line line-1"></div>
-              <div class="line line-2"></div>
-              <div class="line line-3"></div>
-            </div>
           </div>
 
-          <!-- LINUX -->
-          <div class="card">
-            <h4>Linux</h4>
-            <p>
-              Experienced in arch to make a ligth distro for pentesting and
-              hacking. And Experienced on Parrot and Kali.
-            </p>
+          <div class="skill-groups">
+            <article class="card skill-group" data-reveal>
+              <span class="badge">01</span>
+              <h3>Offensive security</h3>
+              <p>Pentesting, web exploitation and privilege escalation.</p>
+              <ul class="skill-list">
+                <li class="tag">Pentesting</li>
+                <li class="tag">OWASP Top 10</li>
+                <li class="tag">Burp Suite</li>
+                <li class="tag">Nmap</li>
+                <li class="tag">Metasploit</li>
+                <li class="tag">Linux</li>
+                <li class="tag">Bash</li>
+              </ul>
+            </article>
 
-            <div class="shine"></div>
-            <div class="background">
-              <div class="tiles">
-                <div class="tile tile-1"></div>
-                <div class="tile tile-2"></div>
-                <div class="tile tile-3"></div>
-                <div class="tile tile-4"></div>
-                <div class="tile tile-5"></div>
-                <div class="tile tile-6"></div>
-                <div class="tile tile-7"></div>
-                <div class="tile tile-8"></div>
-                <div class="tile tile-9"></div>
-                <div class="tile tile-10"></div>
-              </div>
+            <article class="card skill-group" data-reveal>
+              <span class="badge badge-violet">02</span>
+              <h3>Development</h3>
+              <p>Full-stack and mobile products with a security-first mindset.</p>
+              <ul class="skill-list">
+                <li class="tag">JavaScript</li>
+                <li class="tag">TypeScript</li>
+                <li class="tag">React</li>
+                <li class="tag">Next.js</li>
+                <li class="tag">Angular</li>
+                <li class="tag">Node.js</li>
+                <li class="tag">React Native</li>
+              </ul>
+            </article>
 
-              <div class="line line-1"></div>
-              <div class="line line-2"></div>
-              <div class="line line-3"></div>
-            </div>
+            <article class="card skill-group" data-reveal>
+              <span class="badge">03</span>
+              <h3>Platforms &amp; practice</h3>
+              <p>Where I train, test and document what I learn.</p>
+              <ul class="skill-list">
+                <li class="tag">Hack The Box</li>
+                <li class="tag">PortSwigger Labs</li>
+                <li class="tag">Parrot OS</li>
+                <li class="tag">Kali Linux</li>
+                <li class="tag">Arch Linux</li>
+                <li class="tag">Docker</li>
+              </ul>
+            </article>
           </div>
 
-          <!-- BURPSUITE -->
-          <div class="card">
-            <h4>Burpsuite</h4>
-            <p>
-              Experienced in Burpsuite to web hacking using proxies and tools
-              like intruder, repeter and decoder.
+          <div class="button-container">
+            <a class="btn btn-outline" href="pages/skills.html">Detailed skills →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- WRITEUPS -->
+      <section class="section" id="writeups">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Research</span>
+            <h2 class="section-title">Latest writeups</h2>
+            <p class="section-desc">
+              Step-by-step documentation of CTF machines and vulnerability assessments.
             </p>
-
-            <div class="shine"></div>
-            <div class="background">
-              <div class="tiles">
-                <div class="tile tile-1"></div>
-                <div class="tile tile-2"></div>
-                <div class="tile tile-3"></div>
-                <div class="tile tile-4"></div>
-                <div class="tile tile-5"></div>
-                <div class="tile tile-6"></div>
-                <div class="tile tile-7"></div>
-                <div class="tile tile-8"></div>
-                <div class="tile tile-9"></div>
-                <div class="tile tile-10"></div>
-              </div>
-
-              <div class="line line-1"></div>
-              <div class="line line-2"></div>
-              <div class="line line-3"></div>
-            </div>
           </div>
 
-          <!-- CMS -->
-          <div class="card">
-            <h4>CMS</h4>
-            <p>
-              Knowledge of CVEs to exploit Content Management Systems (CMS). And
-              make exploits.
-            </p>
-
-            <div class="shine"></div>
-            <div class="background">
-              <div class="tiles">
-                <div class="tile tile-1"></div>
-                <div class="tile tile-2"></div>
-                <div class="tile tile-3"></div>
-                <div class="tile tile-4"></div>
-                <div class="tile tile-5"></div>
-                <div class="tile tile-6"></div>
-                <div class="tile tile-7"></div>
-                <div class="tile tile-8"></div>
-                <div class="tile tile-9"></div>
-                <div class="tile tile-10"></div>
+          <div class="list-grid">
+            <a class="card list-card" href="pages/writeups/wr-mango.html" data-reveal>
+              <div class="list-card-head">
+                <h3>HTB: Mango</h3>
+                <span class="tag tag-easy">Easy</span>
               </div>
+              <p>NoSQL injection in authentication forms and privilege escalation via SUID on Linux.</p>
+              <div class="tags">
+                <span class="tag">#linux</span><span class="tag">#MongoDB</span><span class="tag">#NoSQLi</span><span class="tag">#SUID</span>
+              </div>
+            </a>
 
-              <div class="line line-1"></div>
-              <div class="line line-2"></div>
-              <div class="line line-3"></div>
-            </div>
+            <a class="card list-card" href="pages/writeups/wr-instant.html" data-reveal>
+              <div class="list-card-head">
+                <h3>HTB: Instant</h3>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+              <p>APK decompilation, hardcoded JWT credentials, path traversal and credential recovery.</p>
+              <div class="tags">
+                <span class="tag">#linux</span><span class="tag">#apk</span><span class="tag">#api</span>
+              </div>
+            </a>
+
+            <a class="card list-card" href="pages/writeups/wr-nodeblog.html" data-reveal>
+              <div class="list-card-head">
+                <h3>HTB: NodeBlog</h3>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+              <p>NoSQL bypass, XXE file read and insecure deserialization leading to code execution.</p>
+              <div class="tags">
+                <span class="tag">#NoSQLi</span><span class="tag">#xxe</span><span class="tag">#deserialization</span>
+              </div>
+            </a>
           </div>
 
-          <!-- OWASP -->
-          <div class="card">
-            <h4>OWASP TOP 10</h4>
-            <p>
-              Experience in OWASP-type attacks such as XSS, SQLi, XXE, and more.
+          <div class="button-container">
+            <a class="btn btn-outline" href="pages/writeups.html">All writeups →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- LABS -->
+      <section class="section" id="labs">
+        <div class="container">
+          <div class="section-head" data-reveal>
+            <span class="eyebrow">Practice</span>
+            <h2 class="section-title">Vulnerable labs</h2>
+            <p class="section-desc">
+              Custom Docker environments to practise exploitation techniques safely.
             </p>
-
-            <div class="shine"></div>
-            <div class="background">
-              <div class="tiles">
-                <div class="tile tile-1"></div>
-                <div class="tile tile-2"></div>
-                <div class="tile tile-3"></div>
-                <div class="tile tile-4"></div>
-                <div class="tile tile-5"></div>
-                <div class="tile tile-6"></div>
-                <div class="tile tile-7"></div>
-                <div class="tile tile-8"></div>
-                <div class="tile tile-9"></div>
-                <div class="tile tile-10"></div>
-              </div>
-
-              <div class="line line-1"></div>
-              <div class="line line-2"></div>
-              <div class="line line-3"></div>
-            </div>
           </div>
 
-          <!-- SQLI -->
-          <div class="card">
-            <h4>PORTSWIGGER</h4>
-            <p>
-              Resolution of some labs in portswigger like sqli and exploits for
-              resolutions
-            </p>
-
-            <div class="shine"></div>
-            <div class="background">
-              <div class="tiles">
-                <div class="tile tile-1"></div>
-                <div class="tile tile-2"></div>
-                <div class="tile tile-3"></div>
-                <div class="tile tile-4"></div>
-                <div class="tile tile-5"></div>
-                <div class="tile tile-6"></div>
-                <div class="tile tile-7"></div>
-                <div class="tile tile-8"></div>
-                <div class="tile tile-9"></div>
-                <div class="tile tile-10"></div>
+          <div class="list-grid">
+            <a class="card list-card" href="pages/Labs/labs.html" data-reveal>
+              <div class="list-card-head">
+                <h3>SQLI #1</h3>
+                <span class="badge">Docker lab</span>
               </div>
-
-              <div class="line line-1"></div>
-              <div class="line line-2"></div>
-              <div class="line line-3"></div>
-            </div>
+              <p>Intentionally vulnerable web app to practise SQL injection, enumeration and payload crafting.</p>
+              <div class="tags">
+                <span class="tag">#SQLi</span><span class="tag">#Docker</span><span class="tag">#Web</span>
+              </div>
+            </a>
           </div>
 
-          <!-- SQLI -->
-          <div class="card">
-            <h4>Hackthebox</h4>
-            <p>
-              Resolution of many labs in HTB, Windows and Linux machines
-            </p>
+          <div class="button-container">
+            <a class="btn btn-outline" href="pages/Labs/labs.html">Explore labs →</a>
+          </div>
+        </div>
+      </section>
 
-            <div class="shine"></div>
-            <div class="background">
-              <div class="tiles">
-                <div class="tile tile-1"></div>
-                <div class="tile tile-2"></div>
-                <div class="tile tile-3"></div>
-                <div class="tile tile-4"></div>
-                <div class="tile tile-5"></div>
-                <div class="tile tile-6"></div>
-                <div class="tile tile-7"></div>
-                <div class="tile tile-8"></div>
-                <div class="tile tile-9"></div>
-                <div class="tile tile-10"></div>
-              </div>
-
-              <div class="line line-1"></div>
-              <div class="line line-2"></div>
-              <div class="line line-3"></div>
+      <!-- CONTACT -->
+      <section class="section" id="contact">
+        <div class="container">
+          <div class="contact-panel" data-reveal>
+            <div>
+              <span class="eyebrow">Get in touch</span>
+              <h2 class="section-title">Let's build something secure.</h2>
+              <p>Open to security projects, collaborations and technical conversations.</p>
+            </div>
+            <div class="btn-group">
+              <button class="copy-mail" type="button" data-copy="aldebaran.gzz.dc@gmail.com" title="Copy email address">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <path d="m3 7 9 6 9-6" />
+                </svg>
+                <span data-copy-label>aldebaran.gzz.dc@gmail.com</span>
+              </button>
+              <a class="btn btn-outline" href="https://www.linkedin.com/in/diego-chávez-offsec" target="_blank" rel="noopener">
+                LinkedIn ↗
+              </a>
             </div>
           </div>
         </div>
       </section>
-    </div>
+    </main>
 
-    <div class="button-container">
-      <button class="button-33" role="button">
-        <a href="./pages/skills.html">Watch more</a>
-      </button>
-    </div>
-    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
-    <script src="./scripts/mail.js"></script>
+    <script src="scripts/layout.js"></script>
+    <script src="scripts/main.js"></script>
   </body>
 </html>

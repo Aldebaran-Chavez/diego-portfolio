@@ -1,191 +1,839 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Machines Catalog | Diego Chávez</title>
+    <meta name="description" content="Catalog of Hack The Box machines solved without a published writeup." />
+    <title>Machines | Diego Chávez</title>
     <link rel="stylesheet" href="../../../styles/global.css" />
-    <link rel="stylesheet" href="../../../styles/button.css" />
-    <link rel="stylesheet" href="../../../styles/about.css" />
+    <link rel="stylesheet" href="../../../styles/pages.css" />
     <link
       rel="icon"
       type="image/png"
       href="https://api.iconify.design/simple-icons:hackthebox.svg?color=%23ff0000"
     />
-    <style>
-      .search-container {
-        margin: 0 auto 20px auto;
-        max-width: 700px;
-      }
-
-      .search-input {
-        width: 100%;
-        padding: 12px 18px;
-        background: rgba(7, 3, 15, 0.7);
-        border: 1px solid rgba(89, 249, 255, 0.3);
-        border-radius: 8px;
-        color: #59f9ff;
-        font-family: 'Anonymous Pro', monospace, sans-serif;
-        font-size: 1rem;
-        outline: none;
-        box-sizing: border-box;
-        transition: all 0.3s ease;
-      }
-
-      .search-input:focus {
-        border-color: #59f9ff;
-        box-shadow: 0 0 12px rgba(89, 249, 255, 0.3);
-      }
-
-      /* Contenedor de Botones de Filtro */
-      .filter-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-        margin-bottom: 30px;
-      }
-
-      .filter-btn {
-        background: rgba(22, 2, 61, 0.6);
-        border: 1px solid rgba(89, 249, 255, 0.2);
-        color: #b0b4c7;
-        padding: 6px 14px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-family: 'Anonymous Pro', monospace;
-        font-size: 0.85rem;
-        transition: all 0.3s ease;
-      }
-
-      .filter-btn:hover, .filter-btn.active {
-        background: rgba(89, 249, 255, 0.15);
-        border-color: #59f9ff;
-        color: #59f9ff;
-        box-shadow: 0 0 8px rgba(89, 249, 255, 0.2);
-      }
-
-      /* Badges de OS y Dificultades */
-      .badge-os {
-        padding: 3px 8px;
-        border-radius: 4px;
-        font-size: 0.75rem;
-        font-weight: bold;
-      }
-      .badge-os.linux { background: rgba(89, 249, 255, 0.15); color: #59f9ff; border: 1px solid rgba(89, 249, 255, 0.3); }
-      .badge-os.windows { background: rgba(0, 162, 255, 0.15); color: #00a2ff; border: 1px solid rgba(0, 162, 255, 0.3); }
-
-      .badge-diff {
-        padding: 3px 8px;
-        border-radius: 4px;
-        font-size: 0.75rem;
-        font-weight: bold;
-      }
-      .badge-diff.easy { background: rgba(0, 245, 212, 0.15); color: #00f5d4; border: 1px solid rgba(0, 245, 212, 0.3); }
-      .badge-diff.medium { background: rgba(255, 165, 0, 0.15); color: #ffa500; border: 1px solid rgba(255, 165, 0, 0.3); }
-      .badge-diff.hard { background: rgba(255, 67, 80, 0.15); color: #ff4350; border: 1px solid rgba(255, 67, 80, 0.3); }
-      .badge-diff.insane { background: rgba(175, 76, 255, 0.15); color: #af4cff; border: 1px solid rgba(175, 76, 255, 0.3); }
-
-      /* Estilo de Tarjetas con Preview */
-      .machine-card {
-        background: rgba(22, 2, 61, 0.5);
-        border: 1px solid rgba(89, 249, 255, 0.2);
-        border-radius: 12px;
-        padding: 20px;
-        display: flex;
-        gap: 20px;
-        align-items: center;
-        transition: all 0.3s ease;
-      }
-
-      .machine-card:hover {
-        border-color: #59f9ff;
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(89, 249, 255, 0.15);
-      }
-
-      .machine-avatar {
-        width: 80px;
-        height: 80px;
-        border-radius: 8px;
-        object-fit: cover;
-        border: 1px solid rgba(89, 249, 255, 0.3);
-        flex-shrink: 0;
-      }
-    </style>
   </head>
   <body>
-    <main class="content-wrapper" style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
-      
-      <!-- ENCABEZADO -->
-      <section class="hero" style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: var(--link-hover-color); font-size: 2.8rem; margin-bottom: 15px;">Machines</h1>
-        <p style="color: #b0b4c7; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
-          Resolved machines than I can't did a writeup.
+    <main id="top">
+      <header class="page-header container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="../../../index.html">Home</a><span>/</span>
+          <a href="../../writeups.html">Writeups</a><span>/</span>Machines
+        </nav>
+        <span class="eyebrow">Catalog</span>
+        <h1 class="page-title">Machines</h1>
+        <p class="page-lead">
+          Machines solved along the way without a full writeup — quick notes on
+          the technique that mattered most.
         </p>
-      </section>
+      </header>
 
-      <!-- BARRA DE BÚSQUEDA -->
-      <div class="search-container">
-        <input
-          type="text"
-          id="search-input"
-          class="search-input"
-          placeholder="Search by machine name, tag (#IDOR, #Capabilities)..."
-          autocomplete="off"
-        />
-      </div>
+      <section class="section container" aria-label="Machine catalog">
+        <div class="search-wrap">
+          <input
+            type="search"
+            id="search-input"
+            class="search-input"
+            placeholder="Search by name or technique…"
+            autocomplete="off"
+            aria-label="Search machines"
+          />
+        </div>
 
-      <!-- FILTROS POR SO Y DIFICULTAD -->
-      <div class="filter-group">
-        <button class="filter-btn active" data-filter-type="all" data-value="all">All</button>
-        <button class="filter-btn" data-filter-type="os" data-value="linux">Linux</button>
-        <button class="filter-btn" data-filter-type="os" data-value="windows">Windows</button>
-        <button class="filter-btn" data-filter-type="diff" data-value="easy">Easy</button>
-        <button class="filter-btn" data-filter-type="diff" data-value="medium">Medium</button>
-        <button class="filter-btn" data-filter-type="diff" data-value="hard">Hard</button>
-        <button class="filter-btn" data-filter-type="diff" data-value="insane">Insane</button>
-      </div>
+        <div class="filter-group" data-filter-name="os">
+          <button class="filter-btn active" type="button" data-filter-value="all" aria-pressed="true">All systems</button>
+          <button class="filter-btn" type="button" data-filter-value="linux" aria-pressed="false">Linux</button>
+          <button class="filter-btn" type="button" data-filter-value="windows" aria-pressed="false">Windows</button>
+          <button class="filter-btn" type="button" data-filter-value="android" aria-pressed="false">Android</button>
+        </div>
 
-      <!-- LISTA DE MÁQUINAS -->
-      <section class="machines-grid" style="display: flex; flex-direction: column; gap: 20px;">
-        
-        <!-- Tarjeta Máquina Control -->
-        <a href="mc-cap-control.html" style="text-decoration: none;" data-os="windows" data-diff="hard">
-          <div class="machine-card">
-            <div style="flex-grow: 1;">
-              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <h3 style="color: #59f9ff; font-size: 1.4rem; margin: 0;">HTB: Control</h3>
-                <div style="display: flex; gap: 8px;">
-                  <span class="badge-os windows">Windows</span>
-                  <span class="badge-diff hard">Hard</span>
-                </div>
-              </div>
-              
-              <p style="color: #cccccc; margin-top: 10px; font-size: 0.95rem;">
-                Error-based SQLi to PHP web shell via INTO OUTFILE, ConPtyShell interaction, AppLocker bypass, and Service ImagePath registry hijacking for Windows privilege escalation.
-              </p>
+        <div class="filter-group" data-filter-name="diff">
+          <button class="filter-btn active" type="button" data-filter-value="all" aria-pressed="true">All levels</button>
+          <button class="filter-btn" type="button" data-filter-value="easy" aria-pressed="false">Easy</button>
+          <button class="filter-btn" type="button" data-filter-value="medium" aria-pressed="false">Medium</button>
+          <button class="filter-btn" type="button" data-filter-value="hard" aria-pressed="false">Hard</button>
+          <button class="filter-btn" type="button" data-filter-value="insane" aria-pressed="false">Insane</button>
+        </div>
 
-              <div class="tags" style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
-                <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#SQLi</span>
-                <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#AppLocker</span>
-                <span style="background: rgba(89,249,255,0.1); color: #59f9ff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">#ImagePathHijacking</span>
+        <div class="list-grid">
+          <a class="card list-card" href="mc-cap-control.html" data-searchable data-os="windows" data-diff="hard" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Control</h3>
+              <div class="machine-meta">
+                <span class="tag tag-violet">Windows</span>
+                <span class="tag tag-hard">Hard</span>
               </div>
             </div>
-          </div>
-        </a>
+            <p>
+              Error-based SQLi to PHP web shell via <code>INTO OUTFILE</code>,
+              interactive ConPtyShell, AppLocker bypass and service ImagePath
+              hijacking for privilege escalation.
+            </p>
+            <div class="tags">
+              <span class="tag">#SQLi</span><span class="tag">#AppLocker</span><span class="tag">#ImagePathHijacking</span>
+            </div>
+          </a>
 
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/235" target="_blank" rel="noopener" data-searchable data-os="windows" data-diff="medium" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Cascade</h3>
+              <div class="machine-meta">
+                <span class="tag tag-violet">Windows</span>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+            </div>
+            <p>
+              Active Directory chain: LDAP enumeration, TightVNC password
+              reuse, SQLite credential decryption and AD Recycle Bin recovery.
+            </p>
+            <div class="tags">
+              <span class="tag">#AD</span><span class="tag">#LDAP</span><span class="tag">#RecycleBin</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/847" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: CCTV</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              Web enumeration and credential reuse, then command injection in
+              the Motion service to escalate to root.
+            </p>
+            <div class="tags">
+              <span class="tag">#Web</span><span class="tag">#CommandInjection</span><span class="tag">#PrivEsc</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/933" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Cohort</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              Enumeration-led foothold and CVE chaining to move from a
+              low-privileged shell to root.
+            </p>
+            <div class="tags">
+              <span class="tag">#Enumeration</span><span class="tag">#CVE</span><span class="tag">#PrivEsc</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/351" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Cap</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              PCAP analysis to recover cleartext credentials, followed by
+              Linux capability abuse for root.
+            </p>
+            <div class="tags">
+              <span class="tag">#PCAP</span><span class="tag">#Credentials</span><span class="tag">#Capabilities</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/347" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Knife</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              PHP 8.1.0-dev backdoor exposed through the <code>X-Powered-By</code>
+              header for RCE, then <code>sudo knife exec</code> for root.
+            </p>
+            <div class="tags">
+              <span class="tag">#PHPBackdoor</span><span class="tag">#RCE</span><span class="tag">#Sudo</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/297" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Academy</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              Admin role registration, Laravel deserialization
+              (CVE-2018-15133), credential reuse and sudo composer abuse.
+            </p>
+            <div class="tags">
+              <span class="tag">#Laravel</span><span class="tag">#Deserialization</span><span class="tag">#PrivEsc</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/148" target="_blank" rel="noopener" data-searchable data-os="windows" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Active</h3>
+              <div class="machine-meta">
+                <span class="tag tag-violet">Windows</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              SMB share enumeration, Group Policy Preferences credential
+              decryption and privileged share access.
+            </p>
+            <div class="tags">
+              <span class="tag">#SMB</span><span class="tag">#GPP</span><span class="tag">#ActiveDirectory</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/129" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="medium" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Stratosphere</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+            </div>
+            <p>
+              Apache Struts RCE (CVE-2017-5638), a mkfifo shell, database
+              credential reuse and Python 2 <code>input()</code> evaluation for root.
+            </p>
+            <div class="tags">
+              <span class="tag">#Struts</span><span class="tag">#RCE</span><span class="tag">#Eval</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/189" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="hard" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Ellingson</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-hard">Hard</span>
+              </div>
+            </div>
+            <p>
+              Werkzeug debugger RCE, password hash cracking from
+              <code>shadow.bak</code> and a ret2libc chain against a SUID binary.
+            </p>
+            <div class="tags">
+              <span class="tag">#Debugger</span><span class="tag">#HashCracking</span><span class="tag">#ROP</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/400" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Antique</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              SNMP password leak, HP JetDirect telnet exec, CUPS file read
+              (CVE-2012-5519) and PwnKit for root.
+            </p>
+            <div class="tags">
+              <span class="tag">#SNMP</span><span class="tag">#CUPS</span><span class="tag">#PwnKit</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/692" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: CodePartTwo</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              Source-code review of a custom web app and credential testing
+              leading to a foothold and privilege escalation.
+            </p>
+            <div class="tags">
+              <span class="tag">#SourceReview</span><span class="tag">#Credentials</span><span class="tag">#Web</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/229" target="_blank" rel="noopener" data-searchable data-os="windows" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Sauna</h3>
+              <div class="machine-meta">
+                <span class="tag tag-violet">Windows</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              Active Directory enumeration, AS-REP roasting and Kerberoasting
+              to move from a domain account to domain compromise.
+            </p>
+            <div class="tags">
+              <span class="tag">#AD</span><span class="tag">#ASREPRoast</span><span class="tag">#Kerberoasting</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/903" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="medium" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: DevHub</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+            </div>
+            <p>
+              MCPJam Inspector RCE (CVE-2026-23744), Jupyter token exposure and
+              a hidden MCP tool that leaks root's SSH key.
+            </p>
+            <div class="tags">
+              <span class="tag">#MCPJam</span><span class="tag">#RCE</span><span class="tag">#Jupyter</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/48" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Blocky</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              WordPress enumeration exposes Java plugin JARs; decompiled
+              credentials are reused for SSH, then sudo with the same password
+              yields root.
+            </p>
+            <div class="tags">
+              <span class="tag">#WordPress</span><span class="tag">#JarDecompile</span><span class="tag">#CredentialReuse</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/137" target="_blank" rel="noopener" data-searchable data-os="windows" data-diff="insane" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Fighter</h3>
+              <div class="machine-meta">
+                <span class="tag tag-violet">Windows</span>
+                <span class="tag tag-insane">Insane</span>
+              </div>
+            </div>
+            <p>
+              SQL injection to <code>xp_cmdshell</code>, AppLocker bypass and
+              batch-script hijacking, then Capcom driver abuse for SYSTEM and
+              binary reversing for the final flag.
+            </p>
+            <div class="tags">
+              <span class="tag">#SQLi</span><span class="tag">#AppLocker</span><span class="tag">#Capcom</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/222" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: OpenAdmin</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              OpenNetAdmin RCE provides a foothold, database credential reuse
+              enables lateral movement and <code>sudo nano</code> breaks out to
+              root.
+            </p>
+            <div class="tags">
+              <span class="tag">#OpenNetAdmin</span><span class="tag">#CredentialReuse</span><span class="tag">#Sudo</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/315" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="medium" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Ophiuchi</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+            </div>
+            <p>
+              SnakeYAML deserialization via a malicious JAR leads to RCE,
+              Tomcat credentials enable lateral movement and a custom WASM
+              payload abuses <code>sudo go run</code> for root.
+            </p>
+            <div class="tags">
+              <span class="tag">#Deserialization</span><span class="tag">#Tomcat</span><span class="tag">#WASM</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/653" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Code</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              A Python editor keyword filter is bypassed for RCE, MD5 hashes
+              are cracked from SQLite and a <code>backy</code> task path
+              traversal archives <code>/root</code>.
+            </p>
+            <div class="tags">
+              <span class="tag">#PythonRCE</span><span class="tag">#HashCracking</span><span class="tag">#PathTraversal</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/286" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="medium" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Time</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+            </div>
+            <p>
+              Jackson deserialization (CVE-2019-12384) gives RCE through an
+              H2 SQL script; a writable systemd timer script is then abused
+              for root.
+            </p>
+            <div class="tags">
+              <span class="tag">#Jackson</span><span class="tag">#RCE</span><span class="tag">#SystemdTimer</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/11" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="medium" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Cronos</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+            </div>
+            <p>
+              DNS zone transfer reveals an admin host, SQLi bypasses the login
+              and command injection lands a shell; a writable root cron job
+              then gives a reverse shell.
+            </p>
+            <div class="tags">
+              <span class="tag">#DNS</span><span class="tag">#SQLi</span><span class="tag">#Cron</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/14" target="_blank" rel="noopener" data-searchable data-os="windows" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Granny</h3>
+              <div class="machine-meta">
+                <span class="tag tag-violet">Windows</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              WebDAV writes an ASPX webshell via a <code>.txt</code> upload and
+              <code>MOVE</code> request, then MS14-058 elevates to SYSTEM.
+            </p>
+            <div class="tags">
+              <span class="tag">#WebDAV</span><span class="tag">#Webshell</span><span class="tag">#MS14-058</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/374" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Horizontall</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              Strapi password reset and command injection CVEs lead to a
+              shell, then Laravel debug-mode PHAR deserialization gives root.
+            </p>
+            <div class="tags">
+              <span class="tag">#Strapi</span><span class="tag">#CommandInjection</span><span class="tag">#Deserialization</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/401" target="_blank" rel="noopener" data-searchable data-os="windows" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Return</h3>
+              <div class="machine-meta">
+                <span class="tag tag-violet">Windows</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              Printer admin panel leaks LDAP credentials, WinRM provides access
+              and Server Operators rights allow a VSS service hijack to SYSTEM.
+            </p>
+            <div class="tags">
+              <span class="tag">#LDAP</span><span class="tag">#WinRM</span><span class="tag">#ServiceHijack</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/382" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Validation</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              Second-order SQLi with FILE privileges writes a webshell, then
+              database password reuse gives root.
+            </p>
+            <div class="tags">
+              <span class="tag">#SQLi</span><span class="tag">#Webshell</span><span class="tag">#PasswordReuse</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/64" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Mirai</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              Raspberry Pi default SSH credentials lead to sudo, then the
+              deleted root flag is recovered from USB media.
+            </p>
+            <div class="tags">
+              <span class="tag">#DefaultCreds</span><span class="tag">#USBForensics</span><span class="tag">#DataRecovery</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/356" target="_blank" rel="noopener" data-searchable data-os="android" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Explore</h3>
+              <div class="machine-meta">
+                <span class="tag tag-violet">Android</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              ES File Explorer's arbitrary file read (CVE-2019-6447) exposes an
+              SSH password; the phone's adb service then gives a root shell.
+            </p>
+            <div class="tags">
+              <span class="tag">#Android</span><span class="tag">#CVE-2019-6447</span><span class="tag">#ADB</span><span class="tag">#FileRead</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/51" target="_blank" rel="noopener" data-searchable data-os="windows" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Blue</h3>
+              <div class="machine-meta">
+                <span class="tag tag-violet">Windows</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              MS17-010 (EternalBlue) against unpatched SMB yields a SYSTEM
+              shell with Metasploit or standalone exploits.
+            </p>
+            <div class="tags">
+              <span class="tag">#SMB</span><span class="tag">#MS17-010</span><span class="tag">#EternalBlue</span><span class="tag">#RCE</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/113" target="_blank" rel="noopener" data-searchable data-os="windows" data-diff="hard" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Tally</h3>
+              <div class="machine-meta">
+                <span class="tag tag-violet">Windows</span>
+                <span class="tag tag-hard">Hard</span>
+              </div>
+            </div>
+            <p>
+              SharePoint leaks FTP credentials; KeePass and MSSQL enable
+              xp_cmdshell, then Windows token abuse escalates to SYSTEM.
+            </p>
+            <div class="tags">
+              <span class="tag">#SharePoint</span><span class="tag">#KeePass</span><span class="tag">#MSSQL</span><span class="tag">#Potato</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/410" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="medium" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Shibboleth</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+            </div>
+            <p>
+              IPMI hash leak and Zabbix agent command execution give a
+              foothold; MariaDB CVE-2021-27928 finishes the root path.
+            </p>
+            <div class="tags">
+              <span class="tag">#IPMI</span><span class="tag">#Zabbix</span><span class="tag">#PasswordReuse</span><span class="tag">#CVE-2021-27928</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/275" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="medium" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Passage</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+            </div>
+            <p>
+              CuteNews webshell upload and source review expose credentials
+              and an SSH key; USBCreator's sudo bug gives root.
+            </p>
+            <div class="tags">
+              <span class="tag">#CuteNews</span><span class="tag">#Webshell</span><span class="tag">#SSHKey</span><span class="tag">#SudoBypass</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/446" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: GoodGames</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              SQLi login bypass and UNION dump lead to SSTI in the admin
+              profile, RCE inside Docker, then password reuse to escape.
+            </p>
+            <div class="tags">
+              <span class="tag">#SQLi</span><span class="tag">#SSTI</span><span class="tag">#Docker</span><span class="tag">#PasswordReuse</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/346" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="medium" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Pit</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+            </div>
+            <p>
+              SNMP enumeration exposes SeedDMS; CVE-2019-12744 drops a
+              webshell and an SNMP extend script escalates to root.
+            </p>
+            <div class="tags">
+              <span class="tag">#SNMP</span><span class="tag">#CVE-2019-12744</span><span class="tag">#Webshell</span><span class="tag">#PrivilegeEscalation</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/430" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: NodeBlog</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              NoSQL injection bypasses login, XXE leaks source, and
+              node-serialize deserialization gives RCE before password reuse.
+            </p>
+            <div class="tags">
+              <span class="tag">#NoSQLi</span><span class="tag">#XXE</span><span class="tag">#Deserialization</span><span class="tag">#PasswordReuse</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/339" target="_blank" rel="noopener" data-searchable data-os="windows" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Toolbox</h3>
+              <div class="machine-meta">
+                <span class="tag tag-violet">Windows</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              SQL injection writes a webshell via sqlmap; boot2docker defaults
+              and an SSH key then lead from the container to host admin.
+            </p>
+            <div class="tags">
+              <span class="tag">#SQLi</span><span class="tag">#Docker</span><span class="tag">#DefaultCreds</span><span class="tag">#SSHKey</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/244" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="hard" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Quick</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-hard">Hard</span>
+              </div>
+            </div>
+            <p>
+              QUIC/HTTP3 recon and credential reuse expose an ESI injection
+              path; XSLT RCE, a symlink race and cached root creds finish it.
+            </p>
+            <div class="tags">
+              <span class="tag">#QUIC</span><span class="tag">#ESI</span><span class="tag">#XSLT</span><span class="tag">#RaceCondition</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/195" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Haystack</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              A base64 hint hidden in a JPEG leads to Elasticsearch credentials;
+              a Kibana LFI/RCE CVE and a Logstash exec rule escalate to root.
+            </p>
+            <div class="tags">
+              <span class="tag">#Stego</span><span class="tag">#Elasticsearch</span><span class="tag">#CVE-2018-17246</span><span class="tag">#Logstash</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/630" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="medium" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Instant</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+            </div>
+            <p>
+              A hardcoded JWT in a decompiled APK unlocks the admin API; path
+              traversal reads SSH keys and a cracked session secret reveals root
+              credentials.
+            </p>
+            <div class="tags">
+              <span class="tag">#APK</span><span class="tag">#JWT</span><span class="tag">#PathTraversal</span><span class="tag">#CredentialReuse</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/214" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="medium" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Mango</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+            </div>
+            <p>
+              MongoDB NoSQL injection with regex extraction dumps credentials;
+              the <code>jjs</code> SUID binary is abused to set a SUID bash and
+              get root.
+            </p>
+            <div class="tags">
+              <span class="tag">#MongoDB</span><span class="tag">#NoSQLi</span><span class="tag">#SUID</span><span class="tag">#PrivilegeEscalation</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/118" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Bashed</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              An exposed phpbash web shell gives a foothold; sudo to
+              scriptmanager and a root-run Python script leads to SUID bash.
+            </p>
+            <div class="tags">
+              <span class="tag">#WebShell</span><span class="tag">#sudo</span><span class="tag">#Cron</span><span class="tag">#SUID</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/462" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="medium" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Backend</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-medium">Medium</span>
+              </div>
+            </div>
+            <p>
+              Exposed FastAPI docs and a reset flow grant admin access; a
+              file-read leaks the JWT secret and superuser credentials, allowing
+              a forged debug token and RCE.
+            </p>
+            <div class="tags">
+              <span class="tag">#FastAPI</span><span class="tag">#JWT</span><span class="tag">#FileRead</span><span class="tag">#RCE</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+
+          <a class="card list-card" href="https://labs.hackthebox.com/achievement/machine/1711388/651" target="_blank" rel="noopener" data-searchable data-os="linux" data-diff="easy" data-reveal>
+            <div class="list-card-head">
+              <h3>HTB: Dog</h3>
+              <div class="machine-meta">
+                <span class="tag tag-easy">Linux</span>
+                <span class="tag tag-easy">Easy</span>
+              </div>
+            </div>
+            <p>
+              An exposed Git repo leaks Backdrop CMS credentials; a malicious
+              module gives RCE, a reused password pivots to a user, and sudo
+              <code>bee eval</code> yields root.
+            </p>
+            <div class="tags">
+              <span class="tag">#GitLeak</span><span class="tag">#BackdropCMS</span><span class="tag">#ModuleUpload</span><span class="tag">#sudo</span>
+            </div>
+            <span class="card-link">View achievement ↗</span>
+          </a>
+        </div>
+
+        <p class="empty-state" data-empty hidden>No machines match your search.</p>
+
+        <div class="button-container">
+          <a class="btn btn-outline" href="../../writeups.html">Back to writeups</a>
+          <a class="btn" href="../../../index.html">Back home</a>
+        </div>
       </section>
-
-      <!-- NAVEGACIÓN -->
-      <div class="button-container" style="margin-top: 40px; display: flex; justify-content: center; gap: 15px;">
-        <a href="../../writeups.html" class="button-33" role="button">Back to Writeups</a>
-        <a href="../../../" class="button-33" role="button">Back home</a>
-      </div>
-
     </main>
 
-    <!-- JS DE FILTRADO -->
-    <script src="../../../scripts/filter-machines.js"></script>
+    <script src="../../../scripts/layout.js"></script>
+    <script src="../../../scripts/main.js"></script>
   </body>
 </html>
